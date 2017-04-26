@@ -54,11 +54,13 @@ public class ObserverScript : MonoBehaviour
         this.transform.localEulerAngles += new Vector3(-Input.GetAxis("Vertical"), 0, 0) * rotateSpeed;
         if (this.transform.localEulerAngles.x > 90)
         {
-            this.transform.localEulerAngles.Set(90,this.transform.localEulerAngles.y , this.transform.localEulerAngles.z);
+            this.transform.localEulerAngles.Set(90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+            //this.transform.localEulerAngles = new Vector3(90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
         }
         else if (this.transform.localEulerAngles.x < -90)
         {
             this.transform.localEulerAngles.Set(-90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+            //    this.transform.localEulerAngles = new Vector3(-90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
         }
     }
 }
