@@ -9,6 +9,7 @@ public class ObserverScript : MonoBehaviour
     public float currentSpeed;
     public float moveSpeed;
     public Rigidbody rigidBody;
+    public float currentRotateX = 0;
 
     // Use this for initialization
     void Start()
@@ -51,16 +52,22 @@ public class ObserverScript : MonoBehaviour
         rigidBody.velocity = movDirection * moveSpeed;
 
         this.transform.localEulerAngles += new Vector3(0, Input.GetAxis("Horizontal"), 0) * rotateSpeed;
-        this.transform.localEulerAngles += new Vector3(-Input.GetAxis("Vertical"), 0, 0) * rotateSpeed;
-        if (this.transform.localEulerAngles.x > 90)
+        Vector3 finalRotation = this.transform.localEulerAngles;
+        currentRotateX -= Input.GetAxis("Vertical") * rotateSpeed; ;
+
+        if (currentRotateX > 90)
         {
-            this.transform.localEulerAngles.Set(90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
-            //this.transform.localEulerAngles = new Vector3(90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+            //this.transform.eulerAngles = new Vector3(90, 0, 0);
+            Debug.Log("come in A " + currentRotateX);
+            currentRotateX = 90;
         }
-        else if (this.transform.localEulerAngles.x < -90)
+        if (currentRotateX < -90)
         {
-            this.transform.localEulerAngles.Set(-90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
-            //    this.transform.localEulerAngles = new Vector3(-90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+            //this.transform.localEulerAngles.Set(-90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+            Debug.Log("come in B" + currentRotateX);
+            currentRotateX = -90;
         }
+        finalRotation.x = currentRotateX;
+        this.transform.localEulerAngles = finalRotation;
     }
 }
