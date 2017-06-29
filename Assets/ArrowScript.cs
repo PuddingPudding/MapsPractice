@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScript : MonoBehaviour
+public class ArrowScript : MonoBehaviour
 {
-
     public float FlyingSpeed;
     public float LifeTime;
 
