@@ -58,13 +58,11 @@ public class ObserverScript : MonoBehaviour
         if (currentRotateX > 90)
         {
             //this.transform.eulerAngles = new Vector3(90, 0, 0);
-            Debug.Log("come in A " + currentRotateX);
             currentRotateX = 90;
         }
         if (currentRotateX < -90)
         {
             //this.transform.localEulerAngles.Set(-90, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
-            Debug.Log("come in B" + currentRotateX);
             currentRotateX = -90;
         }
         finalRotation.x = currentRotateX;
