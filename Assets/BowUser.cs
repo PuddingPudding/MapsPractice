@@ -53,7 +53,7 @@ public class BowUser : MonoBehaviour
 
                 arrow.transform.position = bow.transform.position;
                 arrow.transform.rotation = bow.transform.rotation;
-                arrow.InitAndShoot(bow.transform.localRotation.eulerAngles);
+                arrow.InitAndShoot(bow.transform.forward);
                 //射箭
             }
             ChargingBar = 0;      
