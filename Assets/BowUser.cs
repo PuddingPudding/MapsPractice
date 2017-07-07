@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class BowUser : MonoBehaviour
 {
     public Animator bowAnimator;
-    private Rigidbody rigidbody;
-    public float aimingSpeedScale = 0.5f;
 
     public Image target;
     public float shrinkSpeed; //準星縮小的速度
@@ -22,32 +20,26 @@ public class BowUser : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        rigidbody = this.GetComponent<Rigidbody>();
         scaleTemp = target.transform.localScale; //取準星大小比例
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {           
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
         {
-            Vector3 velocity = rigidbody.velocity;
-            velocity.x  *= aimingSpeedScale;
-            velocity.z *= aimingSpeedScale;
-            this.rigidbody.velocity = velocity;
             if (target.transform.localScale.sqrMagnitude > 0.15f)
             {
                 target.transform.localScale *= shrinkSpeed;
             }
             ChargingBar += Time.deltaTime;
         }
-        if(Input.GetMouseButtonUp(0) )
+        if(Input.GetMouseButtonUp(0) ) //放開滑鼠時，判斷放箭與否
         {
             target.transform.localScale = scaleTemp;
             Debug.Log(ChargingBar);
             if (ChargingBar >= ChargingValue)
             {
-                
                 GameObject newArrow = GameObject.Instantiate(arrowCandidate);
                 ArrowScript arrow = newArrow.GetComponent<ArrowScript>();
 
@@ -57,7 +49,6 @@ public class BowUser : MonoBehaviour
                 //射箭
             }
             ChargingBar = 0;      
-        }
-        this.bowAnimator.SetFloat("speed", this.rigidbody.velocity.sqrMagnitude);
+        }          
     }
 }

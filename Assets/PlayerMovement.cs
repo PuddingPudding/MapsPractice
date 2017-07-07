@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Transform rotateYTransform;
+    public Transform rotateXTransform;
+
+    public float aimingSpeedScale = 0.5f;
+
     public float rotateSpeed = 1.5f;
     public float currentSpeed;
     public float moveSpeed;
@@ -13,11 +18,10 @@ public class PlayerMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        rigidBody = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //決定鍵盤input的結果
         Vector3 movDirection = Vector3.zero;
@@ -27,11 +31,20 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) { movDirection.x -= 1; }
         movDirection = movDirection.normalized;
 
-        rigidBody.velocity = movDirection * moveSpeed;
+        //以下將移動方向轉換成自己所面對的方向
+        Vector3 worldSpaceDirection = movDirection.z * rotateYTransform.transform.forward +
+                                      movDirection.x * rotateYTransform.transform.right;
+        Vector3 velocity = this.rigidBody.velocity;
+        velocity.x = worldSpaceDirection.x * moveSpeed;
+        velocity.z = worldSpaceDirection.z * moveSpeed;
+        this.rigidBody.velocity = velocity;
 
-        this.transform.localEulerAngles += new Vector3(0, Input.GetAxis("Horizontal"), 0) * rotateSpeed;
-        Vector3 finalRotation = this.transform.localEulerAngles;
-        currentRotateX -= Input.GetAxis("Vertical") * rotateSpeed; ;
+        //水平視角移動
+        rotateYTransform.transform.localEulerAngles += new Vector3(0, Input.GetAxis("Horizontal"), 0) * rotateSpeed;
+
+        //垂直視角移動，為避免物體翻過去
+        Vector3 finalRotation = rotateXTransform.localEulerAngles;
+        currentRotateX -= Input.GetAxis("Vertical") * rotateSpeed;
 
         if (currentRotateX > 90)
         {
@@ -44,6 +57,13 @@ public class PlayerMovement : MonoBehaviour
             currentRotateX = -90;
         }
         finalRotation.x = currentRotateX;
-        this.transform.localEulerAngles = finalRotation;
+        rotateXTransform.localEulerAngles = finalRotation;
+        if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
+        {
+            Vector3 v3 = this.rigidBody.velocity;
+            v3.x *= aimingSpeedScale;
+            v3.z *= aimingSpeedScale;
+            this.rigidBody.velocity = v3;
+        }
     }
 }
