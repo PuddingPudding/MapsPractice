@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BowUser : MonoBehaviour
 {
     public Animator bowAnimator;
+    public Rigidbody rigidbody;
 
     public Image target;
     public float shrinkSpeed; //準星縮小的速度
@@ -49,6 +50,7 @@ public class BowUser : MonoBehaviour
                 //射箭
             }
             ChargingBar = 0;      
-        }          
+        }
+        bowAnimator.SetFloat("speed", this.rigidbody.velocity.magnitude);
     }
 }

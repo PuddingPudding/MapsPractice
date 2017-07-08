@@ -1283,7 +1283,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1706151246224046, guid: c32542c1061aeb242b9d5c82028b09ce, type: 2}
       propertyPath: m_Layer
-      value: 9
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1995646664434982, guid: c32542c1061aeb242b9d5c82028b09ce, type: 2}
       propertyPath: m_Layer
@@ -1881,6 +1881,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 219329611}
+  - {fileID: 935239104}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2978,6 +2979,59 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 91d652779ec7140488b6b8e360497937, type: 2}
   m_PrefabInternal: {fileID: 1216433363}
+--- !u!1 &935239103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 935239104}
+  - component: {fileID: 935239106}
+  - component: {fileID: 935239105}
+  m_Layer: 13
+  m_Name: JumpSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &935239104
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 935239103}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.84, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 449321488}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &935239105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 935239103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966f8d1edbfe6504990000004ea59464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &935239106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 935239103}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.35, y: 0.35, z: 0.35}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &944083657 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 91d652779ec7140488b6b8e360497937, type: 2}
@@ -4564,6 +4618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bowAnimator: {fileID: 179810016}
+  rigidbody: {fileID: 449321489}
   target: {fileID: 1484675896}
   shrinkSpeed: 0.985
   ChargingValue: 1
@@ -4587,8 +4642,10 @@ MonoBehaviour:
   rotateSpeed: 0.7
   currentSpeed: 0
   moveSpeed: 5
-  rigidBody: {fileID: 449321489}
+  jumpSpeed: 5
+  rigidbody: {fileID: 449321489}
   currentRotateX: 0
+  jumpSensor: {fileID: 935239105}
 --- !u!81 &1412586316
 AudioListener:
   m_ObjectHideFlags: 0

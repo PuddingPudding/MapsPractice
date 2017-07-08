@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class JumpSensor : MonoBehaviour
 {
-
     private int TouchedCount = 0;
     void OnTriggerEnter(Collider other)
     {

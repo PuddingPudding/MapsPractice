@@ -11,9 +11,12 @@ public class PlayerMovement : MonoBehaviour
 
     public float rotateSpeed = 1.5f;
     public float currentSpeed;
-    public float moveSpeed;
-    public Rigidbody rigidBody;
+    public float moveSpeed = 5f;
+    public float jumpSpeed = 5f;
+    public Rigidbody rigidbody;
     public float currentRotateX = 0;
+
+    public JumpSensor jumpSensor;
 
     // Use this for initialization
     void Start()
@@ -34,10 +37,22 @@ public class PlayerMovement : MonoBehaviour
         //以下將移動方向轉換成自己所面對的方向
         Vector3 worldSpaceDirection = movDirection.z * rotateYTransform.transform.forward +
                                       movDirection.x * rotateYTransform.transform.right;
-        Vector3 velocity = this.rigidBody.velocity;
+        Vector3 velocity = this.rigidbody.velocity;
         velocity.x = worldSpaceDirection.x * moveSpeed;
         velocity.z = worldSpaceDirection.z * moveSpeed;
-        this.rigidBody.velocity = velocity;
+
+        if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
+        {
+            velocity.x *= aimingSpeedScale;
+            velocity.z *= aimingSpeedScale;
+        }
+        if (Input.GetKey(KeyCode.Space) && jumpSensor.IsCanJump()) //判斷是否可跳躍
+        {
+            velocity.y = jumpSpeed;
+        }
+        rigidbody.velocity = velocity;
+
+        this.rigidbody.velocity = velocity;
 
         //水平視角移動
         rotateYTransform.transform.localEulerAngles += new Vector3(0, Input.GetAxis("Horizontal"), 0) * rotateSpeed;
@@ -58,12 +73,6 @@ public class PlayerMovement : MonoBehaviour
         }
         finalRotation.x = currentRotateX;
         rotateXTransform.localEulerAngles = finalRotation;
-        if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
-        {
-            Vector3 v3 = this.rigidBody.velocity;
-            v3.x *= aimingSpeedScale;
-            v3.z *= aimingSpeedScale;
-            this.rigidBody.velocity = v3;
-        }
+               
     }
 }
