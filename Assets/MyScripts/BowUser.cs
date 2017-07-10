@@ -35,7 +35,7 @@ public class BowUser : MonoBehaviour
             }
             ChargingBar += Time.deltaTime;
         }
-        if(Input.GetMouseButtonUp(0) ) //放開滑鼠時，判斷放箭與否
+        else //放開滑鼠時，判斷放箭與否
         {
             target.transform.localScale = scaleTemp;
             Debug.Log(ChargingBar);

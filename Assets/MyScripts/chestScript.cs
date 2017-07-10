@@ -12,6 +12,22 @@ public class chestScript : MonoBehaviour
     public GameObject closeState;
     public GameHintScript gameHintScript; //控制字幕程式碼
     private float time = 0;//計算觸發時間
+    int FirstTrigger = 0;
+
+    public int getFirstTrigger()
+    {
+        return this.FirstTrigger;
+    }
+
+    public void setFirstTrigger0()
+    {
+        FirstTrigger = 0;
+    }
+    
+    public void setFirstTrigger1()
+    {
+        FirstTrigger = 1;
+    }
 
     // Use this for initialization
     void Start()
@@ -35,6 +51,7 @@ public class chestScript : MonoBehaviour
                 }
                 else if (time == 0)
                 {
+                    Invoke("setFirstTrigger1", 2); ;
                     gameHintScript.NotFoundKey();
                     time = gameHintScript.LifeTime;
                 }
