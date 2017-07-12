@@ -16,6 +16,18 @@ public class GameHintScript : MonoBehaviour {
         Mouse.SetActive(false);
     }
 
+    public void EnemyDestroy()
+    {
+        GameHintText.text = "敵人被你擊倒了!快去開寶箱吧!";
+        Invoke("TextDisappear", LifeTime);
+    }
+
+    public void EnemyAppear()
+    {
+        GameHintText.text = "門被關起來了! 快擊敗敵人離開這鬼地方";
+        Invoke("TextDisappear", LifeTime);
+    }
+
     public void SearchKey()
     {
         GameHintText.text = "快去尋找鑰匙把寶箱打開吧!";

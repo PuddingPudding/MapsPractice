@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour {
     public GameObject jumpHintTrigger;
     public GameObject chestHintTrigger;
     public GameObject key;
+    public GameObject Enemy;
+    public GameObject Door;
+    public GameObject Player;
     float Lifetime;
 
     // Use this for initialization
@@ -16,6 +19,8 @@ public class GameManager : MonoBehaviour {
         Lifetime = gameHintScript.LifeTime + 0.5f;
         gameHintScript.StartText(); //產生開始字幕
         key.SetActive(false);
+        Door.SetActive(false);
+        Enemy.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -46,5 +51,21 @@ public class GameManager : MonoBehaviour {
             chestHintTrigger.GetComponent<chestScript>().setFirstTrigger0();
             key.SetActive(true);
         }
+
+        if(Enemy.GetComponent<EnemyScript>().CurrentHP <= 0 && Door.active)
+        {
+            Door.SetActive(false);
+            gameHintScript.EnemyDestroy();
+        }
+
+        if(key.GetComponent<keyScript>().hasBeenTaken && !Enemy.active)
+        {
+            gameHintScript.Invoke("EnemyAppear", 2);
+            //gameHintScript.EnemyAppear();
+            Door.SetActive(true);
+            Enemy.SetActive(true);
+        }
+
     }
+
 }

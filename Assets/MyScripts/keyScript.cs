@@ -5,6 +5,7 @@ using UnityEngine;
 public class keyScript : MonoBehaviour
 {
     public CollisionListScript PlayerSensor;
+    public bool hasBeenTaken = false;
 
     // Use this for initialization
     void Start()
@@ -20,6 +21,7 @@ public class keyScript : MonoBehaviour
         {
             PlayerSensor.CollisionObjects[0].SendMessage("getKey", "gold");
             this.gameObject.SetActive(false);
+            this.hasBeenTaken = true;
         }
     }
 }

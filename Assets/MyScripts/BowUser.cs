@@ -33,10 +33,16 @@ public class BowUser : MonoBehaviour
             {
                 target.transform.localScale *= shrinkSpeed;
             }
+            else
+            {
+                bowAnimator.enabled = false;
+            }
             ChargingBar += Time.deltaTime;
+            bowAnimator.SetBool("Charging", true);
         }
         else //放開滑鼠時，判斷放箭與否
         {
+            bowAnimator.enabled = true;
             target.transform.localScale = scaleTemp;
             Debug.Log(ChargingBar);
             if (ChargingBar >= ChargingValue)
@@ -48,9 +54,9 @@ public class BowUser : MonoBehaviour
                 arrow.transform.rotation = bow.transform.rotation;
                 arrow.InitAndShoot(bow.transform.forward);
                 //射箭
-            }
-            ChargingBar = 0;      
+            }            
+            ChargingBar = 0;
+            bowAnimator.SetBool("Charging", false);
         }
-        bowAnimator.SetFloat("speed", this.rigidbody.velocity.magnitude);
-    }
+        bowAnimator.SetFloat("Speed", this.rigidbody.velocity.magnitude);   }
 }

@@ -7,6 +7,7 @@ public class ArrowScript : MonoBehaviour
     public float FlyingSpeed;
     public float LifeTime;
     public Vector3 velocity = new Vector3(0,0,0);
+    public float damageValue = 50;
 
     public void InitAndShoot(Vector3 Direction)
     {
@@ -29,7 +30,10 @@ public class ArrowScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        other.gameObject.SendMessage("Hit", damageValue);
         KillYourself();
     }
+
+
 
 }
