@@ -18,10 +18,15 @@ public class PlayerMovement : MonoBehaviour
 
     public JumpSensor jumpSensor;
 
+    public void GetChestSpeed()
+    {
+        this.moveSpeed = 3.5f;
+    }
+
     // Use this for initialization
     void Start()
     {
-        Cursor.visible = false;
+        Cursor.visible = false; //隱藏游標
     }
 
     // Update is called once per frame

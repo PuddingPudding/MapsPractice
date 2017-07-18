@@ -8,10 +8,14 @@ public class GameManager : MonoBehaviour {
     public GameObject jumpHintTrigger;
     public GameObject chestHintTrigger;
     public GameObject key;
+    public CollisionListScript keyCollsionList;
     public GameObject Enemy;
     public GameObject Door;
     public GameObject Player;
+    public GameObject chest_open;
     float Lifetime;
+
+    bool GetKeyEvent = true;
 
     // Use this for initialization
     void Start ()
@@ -19,8 +23,6 @@ public class GameManager : MonoBehaviour {
         Lifetime = gameHintScript.LifeTime + 0.5f;
         gameHintScript.StartText(); //產生開始字幕
         key.SetActive(false);
-        Door.SetActive(false);
-        Enemy.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -52,18 +54,27 @@ public class GameManager : MonoBehaviour {
             key.SetActive(true);
         }
 
-        if(Enemy.GetComponent<EnemyScript>().CurrentHP <= 0 && Door.active)
+        if(Door.active && Enemy.GetComponent<EnemyScript>().CurrentHP <= 0)
         {
             Door.SetActive(false);
             gameHintScript.EnemyDestroy();
         }
 
-        if(key.GetComponent<keyScript>().hasBeenTaken && !Enemy.active)
+        if(key.GetComponent<keyScript>().hasBeenTaken && !Enemy.active && GetKeyEvent)
         {
             gameHintScript.Invoke("EnemyAppear", 2);
             //gameHintScript.EnemyAppear();
             Door.SetActive(true);
             Enemy.SetActive(true);
+            GetKeyEvent = false;
+        }
+
+        if (chest_open.active)
+        {
+            if (!chest_open.transform.Find("coins").gameObject.active)
+            {
+                Player.GetComponentInChildren<PlayerMovement>().GetChestSpeed();
+            }
         }
 
     }

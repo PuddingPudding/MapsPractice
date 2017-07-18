@@ -75,7 +75,23 @@ public class GameHintScript : MonoBehaviour {
 
     public void OpenChest()
     {
-        GameHintText.text = "咑咑咑咑咑咑咑～!";
+        GameHintText.text = "按下G鍵來撿取寶物吧!";
+    }
+
+    public void GetCoins()
+    {
+        GameHintText.text = "快把寶物帶回去吧!";
+        Invoke("TextDisappear", LifeTime);
+    }
+
+    public void NVGHint()
+    {
+        GameHintText.text = "已獲得道具-夜視鏡!";
+        Invoke("NVGHowToUse", LifeTime);
+    }
+    private void NVGHowToUse()
+    {
+        GameHintText.text = "按下N鍵來進行開關";
         Invoke("TextDisappear", LifeTime);
     }
 

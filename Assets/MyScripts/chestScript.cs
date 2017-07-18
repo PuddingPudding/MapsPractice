@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class chestScript : MonoBehaviour
 {
-
     public CollisionListScript PlayerSensor;
     public bool isOpen = false;
     public GameObject openState;
     public GameObject closeState;
     public GameHintScript gameHintScript; //控制字幕程式碼
     private float time = 0;//計算觸發時間
-    int FirstTrigger = 0;
+    int FirstTrigger = 0; //被碰過的次數
 
     public int getFirstTrigger()
     {
@@ -38,25 +37,40 @@ public class chestScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerSensor.CollisionObjects.Count > 0 && this.isOpen == false)
+        if (PlayerSensor.CollisionObjects.Count > 0)
         {
             if (PlayerSensor.CollisionObjects[0].GetComponent<PlayerScript>() != null) //確認是否為玩家
             {
-                if (PlayerSensor.CollisionObjects[0].GetComponent<PlayerScript>().hasGoldKey == true)
+                //下面這行為開箱判斷
+                if (PlayerSensor.CollisionObjects[0].GetComponent<PlayerScript>().hasGoldKey == true && this.isOpen == false)
                 {
                     this.isOpen = true;
                     this.openState.SetActive(true);
                     this.closeState.SetActive(false);
                     gameHintScript.OpenChest();
                 }
-                else if (time == 0)
+                else if (time == 0 && this.isOpen == false) //在尚未打開前
                 {
-                    Invoke("setFirstTrigger1", 2); ;
+                    Invoke("setFirstTrigger1", 2); 
                     gameHintScript.NotFoundKey();
                     time = gameHintScript.LifeTime;
                 }
+
+                //當玩家在範圍內，按下G便可拿走寶物
+                if(this.openState.active)
+                {
+                    Debug.Log("寶箱正處於開啟狀態");
+                    if(Input.GetKey(KeyCode.G))
+                    {
+                        openState.transform.Find("coins").gameObject.SetActive(false);
+                        gameHintScript.TextDisappear();
+                        gameHintScript.GetCoins();
+                        PlayerSensor.CollisionObjects[0].GetComponent<NVGUser>().usable = true;
+                        gameHintScript.Invoke("NVGHint", gameHintScript.LifeTime);
+                    }
+                }
             }
-        }
+        }       
 
         if (time > 0)
         {
