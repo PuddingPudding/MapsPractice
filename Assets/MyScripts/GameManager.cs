@@ -8,11 +8,14 @@ public class GameManager : MonoBehaviour {
     public GameObject jumpHintTrigger;
     public GameObject chestHintTrigger;
     public GameObject key;
-    public CollisionListScript keyCollsionList;
-    public GameObject Enemy;
+    //public CollisionListScript keyCollsionList;
+    public GameObject Enemy; //鑰匙地牢裡面的怪物
     public GameObject Door;
     public GameObject Player;
+    public GameObject chest; //整個寶箱
     public GameObject chest_open;
+    public GameObject NVGUser;
+    public GameObject Enemy_outside; //在外面的怪物
     float Lifetime;
 
     bool GetKeyEvent = true;
@@ -77,6 +80,22 @@ public class GameManager : MonoBehaviour {
             }
         }
 
+        if(!chest.GetComponent<chestScript>().getChestExist())
+        {
+            Enemy_outside.SetActive(true);
+        }
     }
 
+    //控制NVGUser 來開啟或關閉怪物影形
+    public void NVG_On()
+    {
+        Debug.Log("變成可以看見");
+        Enemy_outside.GetComponent<translucentScript>().BecomeCanSee();
+    }
+
+    public void NVG_Off()
+    {
+        Debug.Log("變成不能看見");
+        Enemy_outside.GetComponent<translucentScript>().BecomeTranslucent();
+    }
 }

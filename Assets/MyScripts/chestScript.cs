@@ -12,6 +12,7 @@ public class chestScript : MonoBehaviour
     public GameHintScript gameHintScript; //控制字幕程式碼
     private float time = 0;//計算觸發時間
     int FirstTrigger = 0; //被碰過的次數
+    bool ChestExist = true; //判斷寶物是否被拿取了
 
     public int getFirstTrigger()
     {
@@ -26,6 +27,11 @@ public class chestScript : MonoBehaviour
     public void setFirstTrigger1()
     {
         FirstTrigger = 1;
+    }
+
+    public bool getChestExist()
+    {
+        return ChestExist;
     }
 
     // Use this for initialization
@@ -60,8 +66,9 @@ public class chestScript : MonoBehaviour
                 if(this.openState.active)
                 {
                     Debug.Log("寶箱正處於開啟狀態");
-                    if(Input.GetKey(KeyCode.G))
+                    if(Input.GetKey(KeyCode.G) && ChestExist) //寶箱內有寶物時才會進入
                     {
+                        ChestExist = false;
                         openState.transform.Find("coins").gameObject.SetActive(false);
                         gameHintScript.TextDisappear();
                         gameHintScript.GetCoins();

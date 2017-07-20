@@ -30,7 +30,7 @@ public class ArrowScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        other.gameObject.SendMessage("Hit", damageValue);
+        other.gameObject.SendMessage("Hit", damageValue , SendMessageOptions.DontRequireReceiver);
         KillYourself();
     }
 
