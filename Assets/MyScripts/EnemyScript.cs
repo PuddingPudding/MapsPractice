@@ -8,6 +8,7 @@ public class EnemyScript : MonoBehaviour
 
     private Animator animator;
     public CollisionListScript PlayerSensor;
+    public CollisionListScript AttackSensor;
 
     private float MinimumHitPeriod = 1f;
     private float HitCounter = 0;
@@ -16,6 +17,17 @@ public class EnemyScript : MonoBehaviour
     public float MoveSpeed = 3f;
 
     private Rigidbody rigidbody;
+    private bool readyForIdle = false; //準備閒置，當感應區裡沒有玩家，會把這個bool調成false，並Invoke幾秒後不再追蹤
+    public float readyForIdleTime = 4f;
+
+    public void AttackPlayer()
+    {
+        if (AttackSensor.CollisionObjects.Count > 0)
+        {
+            AttackSensor.CollisionObjects[0].SendMessage("Hit", 30);
+        }
+    }
+
 
     // Use this for initialization
     void Start()
@@ -30,6 +42,12 @@ public class EnemyScript : MonoBehaviour
         if (PlayerSensor.CollisionObjects.Count > 0)
         {
             FollowTarget = PlayerSensor.CollisionObjects[0].gameObject;
+            readyForIdle = true;
+        }
+        else if(PlayerSensor.CollisionObjects.Count == 0 && readyForIdle == true)
+        {
+            readyForIdle = false;
+            Invoke("ClearFollowTarget" , 4);
         }
 
         if (CurrentHP > 0 && HitCounter > 0)
@@ -44,21 +62,32 @@ public class EnemyScript : MonoBehaviour
                 lookAt.y = this.gameObject.transform.position.y; //讓敵人去面向要跟蹤的對象，但是y軸不要有所變動 (讓怪物永遠都站在地上)
                 this.transform.LookAt(lookAt);
                 animator.SetBool("Walk", true);
-                rigidbody.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+                if (AttackSensor.CollisionObjects.Count > 0)
+                {
+                    animator.SetBool("Attack", true);
+                    animator.SetBool("Walk", false);
+                    this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                }
+                else
+                {
+                    animator.SetBool("Attack", false);
+                    rigidbody.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+                }
+                
             }
         }
         else
         {
             rigidbody.velocity = Vector3.zero;
         }
-
-
     }
 
     public void Hit(float value)
     {
         if (HitCounter <= 0)
         {
+            FollowTarget = GameObject.FindGameObjectWithTag("Player");
+            readyForIdle = true;
             HitCounter = MinimumHitPeriod;
             CurrentHP -= value;
             animator.SetFloat("HP", CurrentHP);
@@ -78,6 +107,12 @@ public class EnemyScript : MonoBehaviour
                 this.gameObject.SetActive(false);
             });
         });
+    }
+
+    public void ClearFollowTarget()
+    {
+        this.FollowTarget = null;
+        animator.SetBool("Walk", false);
     }
 
 }

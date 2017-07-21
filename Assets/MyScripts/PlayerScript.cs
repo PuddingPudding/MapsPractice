@@ -8,14 +8,23 @@ public class PlayerScript : MonoBehaviour
     public bool hasGoldKey = false;
     public GameHintScript gameHintScript; //控制字幕程式碼
 
+    public float CurrentHP = 100f;
+    public Text HPText;
+
     // Use this for initialization
     void Start()
     {
-
+        HPText.text = "HP: " + CurrentHP;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Hit(int value)
+    {
+        CurrentHP -= value;
+        HPText.text = "HP: " + CurrentHP;
+    }
+
+        // Update is called once per frame
+        void Update()
     {
 
     }
