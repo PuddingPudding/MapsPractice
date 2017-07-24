@@ -20,12 +20,15 @@ public class GameManager : MonoBehaviour {
 
     bool GetKeyEvent = true;
 
+    public GameObject DeadMenu;
+
     // Use this for initialization
     void Start ()
     {
         Lifetime = gameHintScript.LifeTime + 0.5f;
         gameHintScript.StartText(); //產生開始字幕
         key.SetActive(false);
+        DeadMenu.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -84,6 +87,11 @@ public class GameManager : MonoBehaviour {
         {
             Enemy_outside.SetActive(true);
         }
+
+        if(Player.GetComponent<PlayerScript>().CurrentHP <= 0)
+        {
+            this.GameOver();
+        }
     }
 
     //控制NVGUser 來開啟或關閉怪物影形
@@ -97,5 +105,19 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("變成不能看見");
         Enemy_outside.GetComponent<translucentScript>().BecomeTranslucent();
+    }
+
+    //用來秀出死亡後選單，在玩家死亡時被呼叫
+    public void GameOver()
+    {
+        DeadMenu.SetActive(true);
+        Cursor.visible = true;
+    }
+
+    public void RespawnPlayer()
+    {
+        Player.GetComponent<PlayerScript>().PlayerRespawn();
+        DeadMenu.SetActive(false);
+        Cursor.visible = false;
     }
 }

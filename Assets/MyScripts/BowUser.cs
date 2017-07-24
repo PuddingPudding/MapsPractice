@@ -14,9 +14,12 @@ public class BowUser : MonoBehaviour
 
     private float ChargingBar = 0; //集氣條
     public float ChargingValue;
+    private float ReloadBar = 0;
+    public float ReloadValue = 1; //換箭時間
 
     public GameObject arrowCandidate;
     public GameObject bow;
+    public GameObject arrowOnBow; //置於弓上的箭，用來在射箭後暫時關閉，製作出射出的效果
 
     // Use this for initialization
     void Start()
@@ -26,7 +29,18 @@ public class BowUser : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {           
+    {
+        if (ReloadBar > 0)
+        {
+            Debug.Log("Reloading!");
+            ReloadBar -= Time.deltaTime;
+            return;
+        } //如果正處於換箭狀態，直接就不做下面的事情了
+        else if(!arrowOnBow.active)
+        {
+            arrowOnBow.SetActive(true);
+        }
+
         if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
         {
             if (target.transform.localScale.sqrMagnitude > 0.15f)
@@ -49,14 +63,18 @@ public class BowUser : MonoBehaviour
             {
                 GameObject newArrow = GameObject.Instantiate(arrowCandidate);
                 ArrowScript arrow = newArrow.GetComponent<ArrowScript>();
+                arrowOnBow.SetActive(false); //射出箭了以後，把弓上的箭模組調成關閉
+                ReloadBar = ReloadValue;
+                Debug.Log("ReloadBar = " + ReloadBar);
 
                 arrow.transform.position = bow.transform.position;
                 arrow.transform.rotation = bow.transform.rotation;
                 arrow.InitAndShoot(bow.transform.forward);
                 //射箭
-            }            
+            }
             ChargingBar = 0;
             bowAnimator.SetBool("Charging", false);
         }
-        bowAnimator.SetFloat("Speed", this.rigidbody.velocity.magnitude);   }
+        bowAnimator.SetFloat("Speed", this.rigidbody.velocity.magnitude);
+    }
 }
