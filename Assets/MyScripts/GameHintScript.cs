@@ -95,6 +95,18 @@ public class GameHintScript : MonoBehaviour {
         Invoke("TextDisappear", LifeTime);
     }
 
+    public void NVGHowToFight()
+    {
+        GameHintText.text = "眼前出現了一個看不見的敵人，或許你的夜視鏡幫上一點忙";
+        Invoke("TextDisappear", LifeTime);
+    }
+
+    public void TutorialFinish()
+    {
+        GameHintText.text = "做得好，恭喜你通過了考驗，你將被傳送至下個區域";
+        Invoke("TextDisappear", LifeTime);
+    }
+
     public void TextDisappear()
     {
         GameHintText.text = "";
