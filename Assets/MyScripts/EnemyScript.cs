@@ -98,7 +98,6 @@ public class EnemyScript : MonoBehaviour
 
     void BuryTheBody()
     {
-
         this.GetComponent<Collider>().enabled = false;
         this.transform.DOMoveY(-0.2f, 1f).SetRelative(true).SetDelay(1).OnComplete(() =>
         {
