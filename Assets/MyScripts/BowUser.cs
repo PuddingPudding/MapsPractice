@@ -77,4 +77,9 @@ public class BowUser : MonoBehaviour
         }
         bowAnimator.SetFloat("Speed", this.rigidbody.velocity.magnitude);
     }
+
+    public float getChargingBar()
+    {
+        return this.ChargingBar;
+    }
 }

@@ -15,6 +15,7 @@ public class EnemyScript : MonoBehaviour
     public float CurrentHP = 100;
     public GameObject FollowTarget;
     public float MoveSpeed = 3f;
+    public float AttackValue = 30f;
 
     private Rigidbody rigidbody;
     private bool readyForIdle = false; //準備閒置，當感應區裡沒有玩家，會把這個bool調成false，並Invoke幾秒後不再追蹤
@@ -24,7 +25,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (AttackSensor.CollisionObjects.Count > 0)
         {
-            AttackSensor.CollisionObjects[0].SendMessage("Hit", 30);
+            AttackSensor.CollisionObjects[0].SendMessage("Hit", AttackValue);
         }
     }
 

@@ -21,9 +21,14 @@ public class HightLight : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.B) )
         {
-            highlightFlag = !highlightFlag;
-            weakPointCollider.enabled = highlightFlag;
-            weakPointMark.SetActive(highlightFlag);
+            HighlightSwitch();
         }
+    }
+
+    public void HighlightSwitch()
+    {
+        highlightFlag = !highlightFlag;
+        weakPointCollider.enabled = highlightFlag;
+        weakPointMark.SetActive(highlightFlag);
     }
 }
