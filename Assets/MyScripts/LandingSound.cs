@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LandingSound : MonoBehaviour {
 
-    private AudioSource landingSound;
+    public PlayerSoundList playerSoundList; //引入玩家音樂包
     public JumpSensor jumpSensor;
     private bool ReadToPlay = false;
 
     // Use this for initialization
     void Start () {
-        landingSound = this.GetComponent<AudioSource>();
+
     }
 	
 	// Update is called once per frame
@@ -23,7 +23,7 @@ public class LandingSound : MonoBehaviour {
 
         if(ReadToPlay && jumpSensor.IsCanJump())
         {
-            landingSound.Play();
+            playerSoundList.playLandingSound();
             ReadToPlay = false;
         }
 		

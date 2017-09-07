@@ -20,6 +20,7 @@ public class EnemyScript : MonoBehaviour
     private Rigidbody rigidbody;
     private bool readyForIdle = false; //準備閒置，當感應區裡沒有玩家，會把這個bool調成false，並Invoke幾秒後不再追蹤
     public float readyForIdleTime = 4f;
+    public EnemySoundList enemySoundList;
 
     public void AttackPlayer()
     {
@@ -87,13 +88,18 @@ public class EnemyScript : MonoBehaviour
     {
         if (HitCounter <= 0)
         {
+            enemySoundList.PlayHitSound();
             FollowTarget = GameObject.FindGameObjectWithTag("Player");
             readyForIdle = true;
             HitCounter = MinimumHitPeriod;
             CurrentHP -= value;
             animator.SetFloat("HP", CurrentHP);
             animator.SetTrigger("Hit");
-            if (CurrentHP <= 0) { BuryTheBody(); }
+            if (CurrentHP <= 0)
+            {
+                enemySoundList.PlayDeadSound(); //死亡時撥放死亡聲
+                BuryTheBody();
+            }
         }
     }
 
