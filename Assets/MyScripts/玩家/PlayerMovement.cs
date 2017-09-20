@@ -7,8 +7,6 @@ public class PlayerMovement : MonoBehaviour
     public Transform rotateYTransform;
     public Transform rotateXTransform;
 
-    public float aimingSpeedScale = 0.5f;
-
     public float rotateSpeed = 1.5f;
     public float currentSpeed;
     public float moveSpeed = 5f;
@@ -47,11 +45,6 @@ public class PlayerMovement : MonoBehaviour
         velocity.x = worldSpaceDirection.x * moveSpeed;
         velocity.z = worldSpaceDirection.z * moveSpeed;
 
-        if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
-        {
-            velocity.x *= aimingSpeedScale;
-            velocity.z *= aimingSpeedScale;
-        }
         if (Input.GetKey(KeyCode.Space) && jumpSensor.IsCanJump()) //判斷是否可跳躍
         {
             velocity.y = jumpSpeed;

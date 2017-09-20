@@ -12,6 +12,8 @@ public class BowUser : MonoBehaviour
     public float shrinkSpeed; //準星縮小的速度
     private Vector3 scaleTemp;
 
+    public float aimingSpeedScale = 0.5f;
+
     private float ChargingBar = 0; //集氣條
     public float ChargingValue;
     private float ReloadBar = 0;
@@ -36,13 +38,17 @@ public class BowUser : MonoBehaviour
             ReloadBar -= Time.deltaTime;
             return;
         } //如果正處於換箭狀態，直接就不做下面的事情了
-        else if(!arrowOnBow.active)
+        else if (!arrowOnBow.active)
         {
             arrowOnBow.SetActive(true);
         }
 
         if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
         {
+            Vector3 aimingVelocity = rigidbody.velocity;
+            aimingVelocity.x *= aimingSpeedScale;
+            aimingVelocity.z *= aimingSpeedScale;
+            rigidbody.velocity = aimingVelocity;
             if (target.transform.localScale.sqrMagnitude > 0.15f)
             {
                 target.transform.localScale *= shrinkSpeed;

@@ -48,7 +48,7 @@ public class ChestRewardChanger : MonoBehaviour
                     pressG.SetActive(true);
                     pressG.transform.localPosition = pressGposition;
                     pressG.GetComponent<SpriteRenderer>().color = Color.clear;
-                    pressG.transform.DOLocalMoveY(pressGposition.y + 0.6f , 0.8f);
+                    pressG.transform.DOLocalMoveY(pressGposition.y + 0.3f , 0.8f);
                     DOTween.To(() => pressG.GetComponent<SpriteRenderer>().color,(x) => pressG.GetComponent<SpriteRenderer>().color = x, Color.white , 0.8f);
                 }
             }

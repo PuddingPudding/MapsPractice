@@ -19,11 +19,14 @@ public class EventSystemStage1 : MonoBehaviour
     public KeyScript keyA;
     public ChestRewardChanger chestRewardChanger; //寶箱獎勵(內容物:干擾器)
     public Image endScreen;
+    public BGMListScript BGMList;
+    private AudioSource horrorBGM;
 
     // Use this for initialization
     void Start()
     {
         playerManager = this.GetComponent<PlayerManager>();
+        horrorBGM = BGMList.getHorrorBGM();
     }
 
     // Update is called once per frame
@@ -61,6 +64,10 @@ public class EventSystemStage1 : MonoBehaviour
         {
             playerManager.hasKeyA = true;
         }
+        if(Input.GetKeyDown(KeyCode.P) )
+        {
+            BGMList.playHorrorBGM();
+        }
     }
 
     void EnemyClearEvent(EnemyScript enemy) //殺死走廊上所有敵人後所觸發的事件，帶入的參數為最後死亡的敵人
@@ -73,7 +80,11 @@ public class EventSystemStage1 : MonoBehaviour
             keyA.transform.DOMoveY(keyA.transform.position.y - 1, 2); //兩秒內移到原本y座標-1的位子
             //DOMoveY(結束時的位置, 幾秒內完成);
             endDoor.GetComponent<AudioSource>().Play();
-            endDoor.transform.DOMoveZ(endDoor.transform.position.z + 2.5f, 3);
+            endDoor.transform.DOMoveZ(endDoor.transform.position.z + 2.5f, 3).OnComplete(()=>
+            {
+                horrorBGM.Play();
+            });
+            
             enemyClearEventFlag = false; //把此事件的旗標放下，表示不會再觸發一次了
         }
     }
@@ -83,7 +94,7 @@ public class EventSystemStage1 : MonoBehaviour
         if (stageClearEventFlag == true)
         {
             playerMovement.enabled = false;
-            Vector3 lookAt = endDoor.transform.position;
+            Vector3 lookAt = endDoor.transform.position + new Vector3(0,0,-2f);
             lookAt.y = playerManager.playerScript.transform.position.y;
             lookAt.z -= 2.5f;
             playerManager.playerScript.transform.DOLookAt(lookAt,3f).SetDelay(1); //把玩家的脊椎(observerRoot)調成 "看向牢房"
@@ -96,7 +107,11 @@ public class EventSystemStage1 : MonoBehaviour
                     {
                         playerManager.playerScript.Hit(0);
                         DOTween.To(() => endScreen.color, (x) => endScreen.color = x, Color.black, 3f);
-                    });                    
+                        horrorBGM.DOFade(0f, 3f).SetDelay(2f).OnComplete(() =>//與上方黑頻同時並進，也就是完全黑頻後還會有2秒的微弱音樂
+                        {
+                            Application.LoadLevel("second");
+                        }); 
+                    });
                 });
             });
             stageClearEventFlag = false;

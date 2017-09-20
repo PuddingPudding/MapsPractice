@@ -17,20 +17,19 @@ public class DoorChangeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Y) )
-        {
-            this.Change();
-        }
+
     }
 
     void Change()
     {
         originForm.SetActive(false);
         changedForm.SetActive(true);
+        this.GetComponent<Collider>().enabled = false;
     }
     void Reduction()
     {
         originForm.SetActive(true);
         changedForm.SetActive(false);
+        this.GetComponent<Collider>().enabled = true;
     }
 }

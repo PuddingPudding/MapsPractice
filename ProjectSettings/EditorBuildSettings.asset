@@ -9,3 +9,7 @@ EditorBuildSettings:
     path: Assets/MyOwnScene/Menu.unity
   - enabled: 1
     path: Assets/MyOwnScene/Toturial.unity
+  - enabled: 1
+    path: Assets/MyOwnScene/first.unity
+  - enabled: 1
+    path: Assets/MyOwnScene/second.unity
