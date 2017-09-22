@@ -11,12 +11,14 @@ public class CellDoorScript : MonoBehaviour
     public float DoorMoveScale = 3.5f;
     public float DoorMoveTime = 3f;
     public bool OpenAtBeginning = false; //設定說這扇門的初始狀態是否為開啟
+    private bool DoorIsOpen; //紀錄現在門的狀態
     Vector3 OpenDoorPosition; //紀錄開啟和關閉後的牢門位子
     Vector3 CloseDoorPosition;
 
     // Use this for initialization
     void Start()
     {
+        DoorIsOpen = OpenAtBeginning; //載入初始狀態
         OpenDoorPosition = this.transform.position + this.transform.forward * DoorMoveScale;
         CloseDoorPosition = this.transform.position;
         if(OpenAtBeginning)
@@ -40,13 +42,23 @@ public class CellDoorScript : MonoBehaviour
         }
     }
 
-    void OpenDoor()
+    public void OpenDoor()
     {
-        this.transform.DOMove(OpenDoorPosition, 3);
+        if(!DoorIsOpen) //如果狀態不是開啟的才會進入
+        {
+            this.GetComponent<AudioSource>().Play();
+            this.transform.DOMove(OpenDoorPosition, 3);
+            DoorIsOpen = true;
+        }
     }
 
-    void CloseDoor()
+    public void CloseDoor() //如果狀態不是關閉的才會進入
     {
-        this.transform.DOMove(CloseDoorPosition, 3);
+        if(DoorIsOpen)
+        {
+            this.GetComponent<AudioSource>().Play();
+            this.transform.DOMove(CloseDoorPosition, 3);
+            DoorIsOpen = false;
+        }
     }
 }

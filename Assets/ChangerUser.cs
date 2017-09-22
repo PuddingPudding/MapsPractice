@@ -8,7 +8,7 @@ public class ChangerUser : MonoBehaviour
     //public GameObject arrowCandidate; //未來名稱請做改變
     public GameObject bow;
     public GameObject arrowOnBow; //置於弓上的箭，用來在射箭後暫時關閉，製作出射出的效果
-    private Vector3 arrowLocalPosition; //用於記住最起始的位子，之後復原才可使用
+    private Vector3 arrowLocalPosition;//用於記住最起始的位子，之後復原才可使用
     private Vector3 arrowLocalRotation;//用於記住最起始的旋轉角度，之後復原才可使用
     public float arrowLifeTime = 3f;
     public GameObject changerArrow;

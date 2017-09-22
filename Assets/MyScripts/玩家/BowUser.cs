@@ -29,12 +29,25 @@ public class BowUser : MonoBehaviour
         scaleTemp = target.transform.localScale; //取準星大小比例
     }
 
+    private void Reset()
+    {
+        ChargingBar = 0;
+        ReloadBar = 0;
+        bowAnimator.enabled = true;
+        target.transform.localScale = scaleTemp;
+        bowAnimator.SetBool("Charging", false);
+    }
+
+    public void RefreshBow()
+    {
+        this.Reset();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
         if (ReloadBar > 0)
         {
-            Debug.Log("Reloading!");
             ReloadBar -= Time.deltaTime;
             return;
         } //如果正處於換箭狀態，直接就不做下面的事情了
@@ -42,6 +55,11 @@ public class BowUser : MonoBehaviour
         {
             arrowOnBow.SetActive(true);
         }
+
+        //if(Input.GetKeyUp(KeyCode.R))
+        //{
+        //    this.Reset();
+        //}
 
         if (Input.GetMouseButton(0)) //按下滑鼠時，進入蓄氣狀態，速度減緩
         {
@@ -64,7 +82,6 @@ public class BowUser : MonoBehaviour
         {
             bowAnimator.enabled = true;
             target.transform.localScale = scaleTemp;
-            Debug.Log(ChargingBar);
             if (ChargingBar >= ChargingValue)
             {
                 GameObject newArrow = GameObject.Instantiate(arrowCandidate);
