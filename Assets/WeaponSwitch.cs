@@ -10,13 +10,19 @@ public class WeaponSwitch : MonoBehaviour
     public BowUser bowUser;
     public ChangerUser changerUser;
 
+    //控制現在拿的武器UI程式碼
+    public WeaponUIScript BowUI;
+    public WeaponUIScript ChangerUI;
+
     // Use this for initialization
     void Start()
     {
         //一開始玩家是使用弓箭 所以開啟弓箭程式碼 關閉轉換器
         Bow.SetActive(true);
+        BowUI.OpenAmmoUI();
         bowUser.enabled = true;
         Changer.SetActive(false);
+        ChangerUI.CloseAmmoUI();
         changerUser.enabled = false;
     }
 
@@ -28,17 +34,21 @@ public class WeaponSwitch : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 Bow.SetActive(true);
+                BowUI.OpenAmmoUI();
                 bowUser.enabled = true;
                 bowUser.RefreshBow();
                 Changer.SetActive(false);
+                ChangerUI.CloseAmmoUI();
                 changerUser.enabled = false;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 Bow.SetActive(false);
+                BowUI.CloseAmmoUI();
                 bowUser.enabled = false;
                 Changer.SetActive(true);
+                ChangerUI.OpenAmmoUI();
                 changerUser.enabled = true;
             }
         }
