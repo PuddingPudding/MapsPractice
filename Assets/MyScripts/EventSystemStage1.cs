@@ -32,6 +32,9 @@ public class EventSystemStage1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        List<EnemyScript> enemyToRemove = new List<EnemyScript>(); 
+        //這是foreach的細節之一，foreach的例外處理會希望你不要在走訪串列的過程中直接去移除或新增元素
+        //所以我們要先用一個暫存的列表去記下哪些東西要移除
         foreach (EnemyScript enemy in enemyList)
         {
             if (enemy.CurrentHP <= 0) //當敵人死翹翹的時候
@@ -40,8 +43,12 @@ public class EventSystemStage1 : MonoBehaviour
                 {
                     EnemyClearEvent(enemy); //殺死走廊上所有敵人後所觸發的事件，帶入的參數為最後死亡的敵人
                 }
-                enemyList.Remove(enemy);
+                enemyToRemove.Add(enemy); //先把要移除的東西存到一個列表之中
             }
+        }
+        foreach(EnemyScript enemy in enemyToRemove)//接著在依照這個列表去一一刪除原列表中的東西
+        {
+            enemyList.Remove(enemy);
         }
 
         foreach(ChestScript chest in chestListA)
@@ -63,10 +70,6 @@ public class EventSystemStage1 : MonoBehaviour
         if(keyA.hasBeenTaken)
         {
             playerManager.hasKeyA = true;
-        }
-        if(Input.GetKeyDown(KeyCode.P) )
-        {
-            BGMList.playHorrorBGM();
         }
     }
 

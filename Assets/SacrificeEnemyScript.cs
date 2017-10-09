@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public class SacrificeEnemyScript : MonoBehaviour
 {
     private Animator animator;
     public CollisionListScript PlayerSensor;
@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     private float MinimumHitPeriod = 1f;
     private float HitCounter = 0;
     public float CurrentHP = 100;
+    public float MaxHP = 100;
     public GameObject FollowTarget;
     public float MoveSpeed = 3f;
     public float AttackValue = 30f;
@@ -20,6 +21,7 @@ public class EnemyScript : MonoBehaviour
     private bool readyForIdle = false; //準備閒置，當感應區裡沒有玩家，會把這個bool調成false，並Invoke幾秒後不再追蹤
     public float readyForIdleTime = 4f;
     public EnemySoundList enemySoundList;
+
 
     public void AttackPlayer()
     {
@@ -45,10 +47,10 @@ public class EnemyScript : MonoBehaviour
             FollowTarget = PlayerSensor.CollisionObjects[0].gameObject;
             readyForIdle = true;
         }
-        else if(PlayerSensor.CollisionObjects.Count == 0 && readyForIdle == true)
+        else if (PlayerSensor.CollisionObjects.Count == 0 && readyForIdle == true)
         {
             readyForIdle = false;
-            Invoke("ClearFollowTarget" , 4);
+            Invoke("ClearFollowTarget", 4);
         }
 
         if (CurrentHP > 0 && HitCounter > 0)
@@ -72,9 +74,9 @@ public class EnemyScript : MonoBehaviour
                 else
                 {
                     animator.SetBool("Attack", false);
-                    rigidbody.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+                    rigidbody.velocity = this.transform.forward * MoveSpeed;
                 }
-                
+
             }
         }
         else
@@ -97,21 +99,22 @@ public class EnemyScript : MonoBehaviour
             if (CurrentHP <= 0)
             {
                 enemySoundList.PlayDeadSound(); //死亡時撥放死亡聲
-                BuryTheBody();
+                this.Reduction(); //並讓他回復到死亡狀態
             }
         }
     }
 
-    void BuryTheBody()  //把自己埋葬
+    void Change() //獻祭用的敵人在受到干擾器影響後會變成戰鬥狀態，讓他的X軸與Z軸變成可動
     {
-        this.GetComponent<Collider>().enabled = false;
-        this.transform.DOMoveY(-0.2f, 1f).SetRelative(true).SetDelay(1).OnComplete(() =>
-        {
-            this.transform.DOMoveY(-0.2f, 1f).SetRelative(true).SetDelay(3).OnComplete(() =>
-            {
-                this.gameObject.SetActive(false);
-            });
-        });
+        this.CurrentHP = this.MaxHP;
+        this.animator.SetFloat("HP", CurrentHP);
+        this.rigidbody.isKinematic = false;
+    }
+    void Reduction() //獻祭用的敵人在受到復原後會變成死亡狀態(遊戲物件不消失)
+    {
+        this.CurrentHP = 0;
+        this.animator.SetFloat("HP", CurrentHP);
+        this.rigidbody.isKinematic = true; //在復原時，讓這個東西變成運動學狀態，別人推不動他
     }
 
     public void ClearFollowTarget()
@@ -119,5 +122,4 @@ public class EnemyScript : MonoBehaviour
         this.FollowTarget = null;
         animator.SetBool("Walk", false);
     }
-
 }

@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventSystemStage2 : MonoBehaviour
 {
+
+    //Mid 
     public GameObject box;
     public CollisionListScript grooveTrigger;
     public CollisionListScript buttonTrigger;
+    public CollisionListScript reductionArea; //中間箱子可還原區域
+    public Text reductionText;
     public ReductionButtonScript reductionButtonScript;
     public OpenableDoor midDoor;
     private bool midDoorHasOpen = false;
 
     //2F
+    public MonsterSpawner monsterSpawner;
     private bool GetGoggleAEventFlag = true;
     public GameObject GoggleA;
     public CellDoorScript GateA;
@@ -34,7 +40,7 @@ public class EventSystemStage2 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        reductionText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,7 +53,22 @@ public class EventSystemStage2 : MonoBehaviour
             {
                 midDoor.OpenDoorRotate();
                 midDoorHasOpen = true;
+                reductionText.text = ""; //在把門開啟後，"返回上一步"的字串用成一個空字串
+                reductionText.gameObject.SetActive(false);
+                Debug.Log("Open NOW!");
             }
+        }
+
+        if(reductionArea.CollisionObjects.Count > 0) //如果在範圍內則顯示上一步選單
+        {
+            if (reductionArea.CollisionObjects[0].GetComponent<PlayerScript>() != null && !midDoorHasOpen)
+            {//玩家待在推箱解謎的範圍中時且中間門尚未開啟時，讓玩家能夠返回上一步
+                reductionText.gameObject.SetActive(true);
+            }
+        }
+        else //離開區域則不顯示
+        {
+            reductionText.gameObject.SetActive(false);
         }
 
         if(buttonTrigger.CollisionObjects.Count > 0) //當玩家走到拉桿面前時
@@ -56,6 +77,7 @@ public class EventSystemStage2 : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.R) && !midDoorHasOpen) //開門後開關無效
                 {
+                    Debug.Log("Za Warudo~!");
                     reductionButtonScript.RockerPress();
                     box.GetComponent<BoxChangeManager>().GetBack();
                 }
@@ -64,11 +86,11 @@ public class EventSystemStage2 : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(GetGoggleAEventFlag) //拿到護目鏡前，使用閘門模式A
+            if(GetGoggleAEventFlag)
             {
                 DoorOpenSystemA();
             }
-            if (!GetGoggleAEventFlag)//之後改用模式B(在拿到護目鏡後，出來會變困難)
+            if (!GetGoggleAEventFlag)
             {
                 DoorOpenSystemB();
             }
@@ -180,6 +202,7 @@ public class EventSystemStage2 : MonoBehaviour
             if (buttonTriggerB2.CollisionObjects[0].GetComponent<PlayerScript>() != null)
             {
                 reductionButtonScriptB2.RockerPress();
+                monsterSpawner.ProduceMonster();
             }
         }
 

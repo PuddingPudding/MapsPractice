@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MenuControllerScript : MonoBehaviour {
 
+    public PlayerMovement playerMovement;
     public GameObject Menu;
     bool MenuEnable = false;
 
@@ -19,6 +20,7 @@ public class MenuControllerScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuEnable = !MenuEnable;
+            playerMovement.enabled = !MenuEnable; //如果選單開啟則玩家無法行動(後面可考慮加入武器無法發射)
             Menu.SetActive(MenuEnable);
             Cursor.visible = MenuEnable;
         }

@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
-{
+public class EnemyScriptVerDestory : MonoBehaviour {
+
+    //怪物死亡會把怪物摧毀掉的版本
+
     private Animator animator;
     public CollisionListScript PlayerSensor;
     public CollisionListScript AttackSensor;
@@ -45,10 +47,10 @@ public class EnemyScript : MonoBehaviour
             FollowTarget = PlayerSensor.CollisionObjects[0].gameObject;
             readyForIdle = true;
         }
-        else if(PlayerSensor.CollisionObjects.Count == 0 && readyForIdle == true)
+        else if (PlayerSensor.CollisionObjects.Count == 0 && readyForIdle == true)
         {
             readyForIdle = false;
-            Invoke("ClearFollowTarget" , 4);
+            Invoke("ClearFollowTarget", 4);
         }
 
         if (CurrentHP > 0 && HitCounter > 0)
@@ -74,7 +76,7 @@ public class EnemyScript : MonoBehaviour
                     animator.SetBool("Attack", false);
                     rigidbody.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
                 }
-                
+
             }
         }
         else
@@ -109,7 +111,7 @@ public class EnemyScript : MonoBehaviour
         {
             this.transform.DOMoveY(-0.2f, 1f).SetRelative(true).SetDelay(3).OnComplete(() =>
             {
-                this.gameObject.SetActive(false);
+                Destroy(this.gameObject);
             });
         });
     }
@@ -119,5 +121,4 @@ public class EnemyScript : MonoBehaviour
         this.FollowTarget = null;
         animator.SetBool("Walk", false);
     }
-
 }
