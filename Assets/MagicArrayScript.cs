@@ -9,9 +9,11 @@ public class MagicArrayScript : MonoBehaviour
     //並提供兩個方法已供外界呼叫，分別是setNormal()跟setTriggered()
     //這程式碼只負責被呼叫，不負責執行
     public bool hasBeenTriggered = false;
-    public Color originColor;
-    public Color triggeredColor;
+    public Color originColor = Color.white;
+    public Color triggeredColor = Color.red;
+    public Color blinkColor = Color.yellow;
     public float transformTime = 1;
+    public float blinkTime = 1;
     private SpriteRenderer spriteRenderer;
 
     // Use this for initialization
@@ -25,7 +27,7 @@ public class MagicArrayScript : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.I))
         {
-            this.setTriggered();
+            this.blink();
         }
     }
 
@@ -48,5 +50,15 @@ public class MagicArrayScript : MonoBehaviour
                 hasBeenTriggered = true;
             });            
         }        
+    }
+    public void blink()//用來閃爍的函式
+    {
+        if (!this.hasBeenTriggered)
+        {
+            spriteRenderer.material.DOColor(blinkColor, blinkTime / 2).OnComplete(() =>
+            {
+                spriteRenderer.material.DOColor(originColor, blinkTime / 2);
+            });
+        }
     }
 }

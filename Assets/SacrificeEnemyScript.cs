@@ -122,4 +122,9 @@ public class SacrificeEnemyScript : MonoBehaviour
         this.FollowTarget = null;
         animator.SetBool("Walk", false);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        other.SendMessage("setTriggered",SendMessageOptions.DontRequireReceiver);
+    }
 }
