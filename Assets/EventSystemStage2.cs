@@ -40,7 +40,7 @@ public class EventSystemStage2 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        reductionText.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -53,22 +53,20 @@ public class EventSystemStage2 : MonoBehaviour
             {
                 midDoor.OpenDoorRotate();
                 midDoorHasOpen = true;
-                reductionText.text = ""; //在把門開啟後，"返回上一步"的字串用成一個空字串
-                reductionText.gameObject.SetActive(false);
                 Debug.Log("Open NOW!");
             }
         }
 
-        if(reductionArea.CollisionObjects.Count > 0) //如果在範圍內則顯示上一步選單
+        if(reductionArea.CollisionObjects.Count > 0) //如果再範圍內則顯示上一部選單
         {
-            if (reductionArea.CollisionObjects[0].GetComponent<PlayerScript>() != null && !midDoorHasOpen)
-            {//玩家待在推箱解謎的範圍中時且中間門尚未開啟時，讓玩家能夠返回上一步
-                reductionText.gameObject.SetActive(true);
+            if (reductionArea.CollisionObjects[0].GetComponent<PlayerScript>() != null)
+            {
+                reductionText.text = "返回上一步";
             }
         }
         else //離開區域則不顯示
         {
-            reductionText.gameObject.SetActive(false);
+            reductionText.text = null;
         }
 
         if(buttonTrigger.CollisionObjects.Count > 0) //當玩家走到拉桿面前時

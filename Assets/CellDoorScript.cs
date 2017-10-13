@@ -61,4 +61,9 @@ public class CellDoorScript : MonoBehaviour
             DoorIsOpen = false;
         }
     }
+
+    public bool getDoorIsOpen()
+    {
+        return DoorIsOpen;
+    }
 }
