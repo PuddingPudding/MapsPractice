@@ -8,7 +8,7 @@ public class EventSystemStage2 : MonoBehaviour
 
     //Mid 
     public GameObject box;
-    public CollisionListScript grooveTrigger;
+    public CollisionListScript grooveTrigger; //凹槽的觸發區域
     public CollisionListScript buttonTrigger;
     public CollisionListScript reductionArea; //中間箱子可還原區域
     public Text reductionText;
@@ -18,8 +18,8 @@ public class EventSystemStage2 : MonoBehaviour
 
     //2F
     public MonsterSpawner monsterSpawner;
-    private bool GetGoggleAEventFlag = true;
-    public GameObject GoggleA;
+    private bool GetGoggle2FEventFlag = true;
+    public GameObject Goggle2F; //2樓的濾鏡
     public CellDoorScript GateA;
     public CellDoorScript GateB;
     public CellDoorScript GateC;
@@ -84,28 +84,29 @@ public class EventSystemStage2 : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(GetGoggleAEventFlag)
+            if(GetGoggle2FEventFlag)
             {
                 DoorOpenSystemA();
             }
-            if (!GetGoggleAEventFlag)
+            if (!GetGoggle2FEventFlag)
             {
                 DoorOpenSystemB();
             }
         }
 
-        if(GoggleA.GetComponent<KeyScript>().hasBeenTaken && GetGoggleAEventFlag) //撿取二樓零件後
+        if(Goggle2F.GetComponent<RewardScript>().hasBeenTaken && GetGoggle2FEventFlag) //撿取二樓零件後
         {
-            GetGoggleAEvent();
+            this.GetComponent<PlayerManager>().hasGoggle2F = true; //玩家二樓護目鏡取得
+            GetGoggle2FEvent();
         }
     }
 
-    void GetGoggleAEvent()
+    void GetGoggle2FEvent()
     {
         GateA.CloseDoor();
         GateB.CloseDoor();
         GateC.CloseDoor();
-        GetGoggleAEventFlag = false;
+        GetGoggle2FEventFlag = false;
     }
 
     public void DoorOpenSystemA() //二樓手把模式1

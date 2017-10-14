@@ -104,13 +104,13 @@ public class SacrificeEnemyScript : MonoBehaviour
         }
     }
 
-    void Change() //獻祭用的敵人在受到干擾器影響後會變成戰鬥狀態，讓他的X軸與Z軸變成可動
+    public void Change() //獻祭用的敵人在受到干擾器影響後會變成戰鬥狀態，讓他的X軸與Z軸變成可動
     {
         this.CurrentHP = this.MaxHP;
         this.animator.SetFloat("HP", CurrentHP);
         this.rigidbody.isKinematic = false;
     }
-    void Reduction() //獻祭用的敵人在受到復原後會變成死亡狀態(遊戲物件不消失)
+    public void Reduction() //獻祭用的敵人在受到復原後會變成死亡狀態(遊戲物件不消失)
     {
         this.CurrentHP = 0;
         this.animator.SetFloat("HP", CurrentHP);

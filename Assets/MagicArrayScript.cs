@@ -16,58 +16,61 @@ public class MagicArrayScript : MonoBehaviour
     public float transformTime = 1;
     public float blinkTime = 1;
     private SpriteRenderer spriteRenderer;
-
+    private Light light;
     // Use this for initialization
     void Start()
     {
         spriteRenderer = this.GetComponent<SpriteRenderer>();
+        light = this.GetComponent<Light>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //spriteRenderer = this.GetComponent<SpriteRenderer>();
-        if (Input.GetKeyDown(KeyCode.I))
+        if (this.hasBeenTriggered)
         {
-            this.blink();
-        }
-        if(this.hasBeenTriggered)
-        {
-            spriteRenderer.color = triggeredColor;
+            spriteRenderer.material.color = triggeredColor;
         }
         else
         {
-            spriteRenderer.color = originColor;
+            spriteRenderer.material.color = originColor;
         }
     }
 
     public void setNormal()
     {
-        if(this.hasBeenTriggered && isWorking)
-        {
-            spriteRenderer.material.DOColor(originColor, transformTime).OnComplete(() =>
-            {
-                hasBeenTriggered = false;
-            });//利用Dotween方法，確保 "這個魔法陣啟動了沒" 這個布林值只在顏色轉換完後才會改變真假
-        }        
+        spriteRenderer.material.color = originColor;
+        hasBeenTriggered = false;
     }
     public void setTriggered()
     {
-        if(!this.hasBeenTriggered && isWorking)
+        if (!this.hasBeenTriggered && isWorking)
         {
-            spriteRenderer.material.DOColor(triggeredColor, transformTime).OnComplete(()=>
+            spriteRenderer.material.DOColor(triggeredColor, transformTime).OnComplete(() =>
             {
                 hasBeenTriggered = true;
-            });            
-        }        
+            });    //利用Dotween方法，確保 "這個魔法陣啟動了沒" 這個布林值只在顏色轉換完後才會改變真假        
+        }
     }
+    //public void blink()//用來閃爍的函式
+    //{
+    //    if (!this.hasBeenTriggered && isWorking)
+    //    {
+    //        spriteRenderer.material.DOColor(blinkColor, blinkTime / 2).OnComplete(() =>
+    //        {
+    //            spriteRenderer.material.DOColor(originColor, blinkTime / 2);
+    //        });
+    //    }
+    //}
+
     public void blink()//用來閃爍的函式
     {
         if (!this.hasBeenTriggered && isWorking)
         {
-            spriteRenderer.material.DOColor(blinkColor, blinkTime / 2).OnComplete(() =>
+            light.color = blinkColor;
+            light.DOIntensity(100, blinkTime / 2).OnComplete(() =>
             {
-                spriteRenderer.material.DOColor(originColor, blinkTime / 2);
+                light.DOIntensity(0, blinkTime / 2);
             });
         }
     }

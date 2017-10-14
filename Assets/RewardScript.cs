@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyScript : MonoBehaviour
-{
+public class RewardScript : MonoBehaviour {
+
     public CollisionListScript PlayerSensor;
     public bool hasBeenTaken = false; //是否已被拿走了
     public PlayerSoundList playerSoundList;
@@ -22,7 +22,7 @@ public class KeyScript : MonoBehaviour
         {
             playerSoundList.playGetKeySound();
             this.hasBeenTaken = true;
-            this.gameObject.SetActive(false);            
+            this.gameObject.SetActive(false);
         }
     }
 }
