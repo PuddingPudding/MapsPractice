@@ -14,6 +14,16 @@ public class EventSystemStage2 : MonoBehaviour
     public Text reductionText;
     public ReductionButtonScript reductionButtonScript;
     public OpenableDoor midDoor;
+    public CollisionListScript table2FTrigger;
+    public CollisionListScript tableB1Trigger;
+    public CollisionListScript tableMidTrigger;
+    public GameObject tableMid;
+    public GameObject goggle2F;
+    public GameObject goggleB1;
+    public GameObject goggleFinal;
+    public GameObject gameEndDoor;
+    private bool goggle2FExist = false;
+    private bool goggleB1Exist = false;
     private bool midDoorHasOpen = false;
 
     //2F
@@ -46,6 +56,86 @@ public class EventSystemStage2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (goggle2FExist && goggleB1Exist)
+        {
+            tableMid.GetComponent<TalkToPlayerScript>().textImage = "組 合";
+            tableMid.GetComponent<TalkToPlayerScript>().Message = "三個濾鏡合在一起了!";
+        }
+
+        if (this.GetComponent<PlayerManager>().hasGoggleFinal)
+        {
+            goggleFinal.GetComponentInParent<BoxCollider>().enabled = false;
+            goggleFinal.GetComponentInParent<TalkToPlayerScript>().enabled = false;
+            gameEndDoor.GetComponent<TalkToPlayerScript>().textImage = "開 啟";
+            gameEndDoor.GetComponent<TalkToPlayerScript>().Message = "下一關!";
+        }
+
+        if (table2FTrigger.CollisionObjects.Count > 0) //判斷tableB2
+        {
+            if (table2FTrigger.CollisionObjects[0].GetComponent<PlayerScript>() != null)
+            {
+                if (!goggle2FExist) //如果檯子上還沒出現寶箱
+                {
+                    if (this.GetComponent<PlayerManager>().hasGoggle2F)
+                    {
+                        goggle2F.GetComponentInParent<BoxCollider>().enabled = false;
+                        goggle2F.GetComponentInParent<TalkToPlayerScript>().enabled = false;
+                        goggle2F.SetActive(true);
+                        goggle2FExist = true;
+                    }
+                }
+            }
+        }
+
+        if (tableB1Trigger.CollisionObjects.Count > 0) //判斷tableB1
+        {
+            if (tableB1Trigger.CollisionObjects[0].GetComponent<PlayerScript>() != null)
+            {
+                if (!goggleB1Exist) //如果檯子上還沒出現寶箱
+                {
+                    if (this.GetComponent<PlayerManager>().hasGoggleB1)
+                    {
+                        goggleB1.GetComponentInParent<BoxCollider>().enabled = false;
+                        goggleB1.GetComponentInParent<TalkToPlayerScript>().enabled = false;
+                        goggleB1.SetActive(true);
+                        goggleB1Exist = true;
+                    }
+                }
+            }
+        }
+
+        if (tableMidTrigger.CollisionObjects.Count > 0) //判斷tableMid
+        {
+            if (tableMidTrigger.CollisionObjects[0].GetComponent<PlayerScript>() != null)
+            {
+                if (goggle2FExist && goggleB1Exist)
+                {
+                    tableMid.GetComponent<TalkToPlayerScript>().textImage = "組 合";
+                    tableMid.GetComponent<TalkToPlayerScript>().Message = "三個濾鏡合在一起了!";
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        goggleFinal.SetActive(true);
+                    }
+                }
+            }
+        }
+
+        if (gameEndDoor.GetComponent<CollisionListScript>().CollisionObjects.Count > 0) //判斷GameEndDoor
+        {
+            if (gameEndDoor.GetComponent<CollisionListScript>().CollisionObjects[0].GetComponent<PlayerScript>() != null)
+            {
+                if (this.GetComponent<PlayerManager>().hasGoggleFinal)
+                {
+                    gameEndDoor.GetComponent<TalkToPlayerScript>().textImage = "開 啟";
+                    gameEndDoor.GetComponent<TalkToPlayerScript>().Message = "下一關!";
+                }
+            }
+        }
+
+        if (goggleFinal.GetComponent<RewardScript>().hasBeenTaken)
+        {
+            this.GetComponent<PlayerManager>().hasGoggleFinal = true;
+        }
 
         if (grooveTrigger.CollisionObjects.Count > 0)
         {
@@ -57,7 +147,7 @@ public class EventSystemStage2 : MonoBehaviour
             }
         }
 
-        if(reductionArea.CollisionObjects.Count > 0) //如果再範圍內則顯示上一部選單
+        if (reductionArea.CollisionObjects.Count > 0) //如果再範圍內則顯示上一部選單
         {
             if (reductionArea.CollisionObjects[0].GetComponent<PlayerScript>() != null)
             {
@@ -69,7 +159,7 @@ public class EventSystemStage2 : MonoBehaviour
             reductionText.text = null;
         }
 
-        if(buttonTrigger.CollisionObjects.Count > 0) //當玩家走到拉桿面前時
+        if (buttonTrigger.CollisionObjects.Count > 0) //當玩家走到拉桿面前時
         {
             if (buttonTrigger.CollisionObjects[0].GetComponent<PlayerScript>() != null)
             {
@@ -82,9 +172,9 @@ public class EventSystemStage2 : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            if(GetGoggle2FEventFlag)
+            if (GetGoggle2FEventFlag)
             {
                 DoorOpenSystemA();
             }
@@ -94,7 +184,7 @@ public class EventSystemStage2 : MonoBehaviour
             }
         }
 
-        if(Goggle2F.GetComponent<RewardScript>().hasBeenTaken && GetGoggle2FEventFlag) //撿取二樓零件後
+        if (Goggle2F.GetComponent<RewardScript>().hasBeenTaken && GetGoggle2FEventFlag) //撿取二樓零件後
         {
             this.GetComponent<PlayerManager>().hasGoggle2F = true; //玩家二樓護目鏡取得
             GetGoggle2FEvent();
@@ -127,7 +217,7 @@ public class EventSystemStage2 : MonoBehaviour
         if (buttonTriggerA2.CollisionObjects.Count > 0)
         {
             if (buttonTriggerA2.CollisionObjects[0].GetComponent<PlayerScript>() != null)
-            {     
+            {
                 reductionButtonScriptA2.RockerPress();
                 GateA.CloseDoor();
                 GateB.CloseDoor();

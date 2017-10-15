@@ -57,8 +57,8 @@ public class TalkToPlayerScript : MonoBehaviour
         if (PointUI != null)
         {
             PointUI.SetActive(false);
+            GameObjectMessage.text = null;
         }
-
-        GameObjectMessage.text = null;
+        
     }
 }

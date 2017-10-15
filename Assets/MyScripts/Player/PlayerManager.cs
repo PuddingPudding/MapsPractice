@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     public bool hasChanger;
     public bool hasKeyA;
     public bool hasGoggle2F;
+    public bool hasGoggleB1;
+    public bool hasGoggleFinal;
 
     // Use this for initialization
     void Start()

@@ -27,29 +27,33 @@ public class MagicArrayScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.hasBeenTriggered)
-        {
-            spriteRenderer.material.color = triggeredColor;
-        }
-        else
-        {
-            spriteRenderer.material.color = originColor;
-        }
+        //if (this.hasBeenTriggered)
+        //{
+        //    spriteRenderer.material.color = triggeredColor;
+        //}
+        //else
+        //{
+        //    spriteRenderer.material.color = originColor;
+        //}
     }
 
     public void setNormal()
     {
-        spriteRenderer.material.color = originColor;
+        DOTween.To(() => spriteRenderer.color, x => spriteRenderer.color = x, originColor, transformTime);
         hasBeenTriggered = false;
     }
     public void setTriggered()
     {
-        if (!this.hasBeenTriggered && isWorking)
+        if (this.isWorking)
         {
-            spriteRenderer.material.DOColor(triggeredColor, transformTime).OnComplete(() =>
-            {
-                hasBeenTriggered = true;
-            });    //利用Dotween方法，確保 "這個魔法陣啟動了沒" 這個布林值只在顏色轉換完後才會改變真假        
+            DOTween.To(() => spriteRenderer.color, x => spriteRenderer.color = x, triggeredColor, transformTime).OnComplete(() =>
+           {
+               hasBeenTriggered = true;
+           });    //利用Dotween方法，確保 "這個魔法陣啟動了沒" 這個布林值只在顏色轉換完後才會改變真假        
+        }
+        else
+        {
+            hasBeenTriggered = true; //因為就連為working的魔法陣在被踩到時也要設為hasBeenTriggered，上述邏輯無法動到，所以要額外做一個else分支
         }
     }
     //public void blink()//用來閃爍的函式
@@ -73,5 +77,13 @@ public class MagicArrayScript : MonoBehaviour
                 light.DOIntensity(0, blinkTime / 2);
             });
         }
+    }
+
+    public void disappear()
+    {
+        spriteRenderer.material.DOColor(Color.clear, transformTime).OnComplete(() =>
+       {
+           Destroy(this.gameObject);
+       });
     }
 }
