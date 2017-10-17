@@ -34,10 +34,13 @@ public class ChangeSystem : MonoBehaviour
         //當我們確認了干擾器碰到的東西為可以干擾之物後，呼叫刷新函式，把所有其他物件回復成正常狀態
         for (int i = 0; i < changableList.Length && canRefresh; i++)
         {
-            if(input != changableList[i])
+            if(changableList[i] != null) //因為部分干擾物件可能會在被幹掉後destroy，因此加個檢索之物是否為null的判定
             {
-                changableList[i].SendMessage("Reduction" , SendMessageOptions.DontRequireReceiver);
-            }
+                if (input != changableList[i])
+                {
+                    changableList[i].SendMessage("Reduction", SendMessageOptions.DontRequireReceiver);
+                }
+            }            
         }
     }
 }

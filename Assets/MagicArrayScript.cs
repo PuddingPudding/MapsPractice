@@ -81,8 +81,8 @@ public class MagicArrayScript : MonoBehaviour
 
     public void disappear()
     {
-        spriteRenderer.material.DOColor(Color.clear, transformTime).OnComplete(() =>
-       {
+        DOTween.To(() => spriteRenderer.color, x => spriteRenderer.color = x, Color.clear, 2*transformTime).OnComplete(() =>
+        {
            Destroy(this.gameObject);
        });
     }

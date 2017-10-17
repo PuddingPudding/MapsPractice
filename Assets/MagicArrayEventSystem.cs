@@ -23,7 +23,8 @@ public class MagicArrayEventSystem : MonoBehaviour
     private List<int> numArray = new List<int>(); //一個可以取出元素陣列，用此法做到每次取亂數時都不會有重複數字
     private bool isBlinking = false; //用以表示魔法陣列表正在依序閃爍著，開始閃的時候會先變true，閃玩變成false
     private List<int> compareActiveArray = new List<int>(); //玩家去觸發魔法陣時，將觸發的魔法陣依序存入此處，再拿來跟activeArray
-    private bool eventCompleteFlag = false; //代表是否已破關
+    private bool arrayClearFlag = false; //代表是否成功踩對了
+    private bool arrayClearEventFlag = true; //當你成功踩對了後就會觸發事件，為確保只觸發一次所以使用該旗標
 
     // Use this for initialization
     void Start()
@@ -37,17 +38,9 @@ public class MagicArrayEventSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!isBlinking)
-        //{
-        //    StartCoroutine(blinkArray());
-        //}
         if (Input.GetKeyDown(KeyCode.F) && instructionCollisionList.CollisionObjects.Count > 0)
         {
             StartCoroutine(showBlinkingArray());
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            initCeremony();
         }
 
         bool restartFlag = false; //記錄說是否需要重來
@@ -69,7 +62,7 @@ public class MagicArrayEventSystem : MonoBehaviour
                 StartCoroutine(setMessageForSec("搞錯順序! 可惡，儀式重來了。", 2));
             }
         }
-        eventCompleteFlag = !mask; //如果成功解開了，那所有陣列中的魔法陣一定都已trigger，那mask就不會有機會啟用，故以此檢測是否已解開
+        arrayClearFlag = !mask; //如果成功解開了，那所有陣列中的魔法陣一定都已trigger，那mask就不會有機會啟用，故以此檢測是否已解開
 
         for (int i = 0; i < numArray.Count && !restartFlag; i++)
         {//上面檢查完有啟動的魔法陣之後，檢查玩家是否有讓敵人誤踩未啟動的魔法陣
@@ -87,7 +80,7 @@ public class MagicArrayEventSystem : MonoBehaviour
             isBlinking = false; //先將閃爍中斷
             initCeremony();
         }
-        else if(eventCompleteFlag) //另外來看，假如成功解開了，啟動成功事件，將魔法陣移除
+        else if(arrayClearFlag) //另外來看，假如成功解開了，啟動成功事件，將魔法陣移除
         {
             eventClear();
         }
@@ -130,19 +123,29 @@ public class MagicArrayEventSystem : MonoBehaviour
 
     private void eventClear()
     {
-        sacrificeEnemy.Hit(sacrificeEnemy.CurrentHP);
-        sacrificeEnemy.Reduction();
-        sacrificeEnemy.enabled = false;
-        middleMagicArray.disappear();
-        for (int i = 0; i < magicArrayList.Count; i++)
+        if(arrayClearEventFlag)
         {
-            magicArrayList[i].disappear();
-        }
-        DOTween.To(()=>giantMagicArray.color,x=>giantMagicArray.color=x,Color.red,3f).OnComplete(() =>
-        {
-            Destroy(sacrificeEnemy.gameObject);
-            googleB1.SetActive(true);
-        });
+            sacrificeEnemy.Hit(sacrificeEnemy.CurrentHP);
+            sacrificeEnemy.Reduction();
+            sacrificeEnemy.enabled = false;
+            middleMagicArray.disappear();
+            for (int i = 0; i < magicArrayList.Count; i++)
+            {
+                magicArrayList[i].disappear();
+            }
+            DOTween.To(() => giantMagicArray.color, x => giantMagicArray.color = x, Color.red, 2f).OnComplete(() =>
+            {
+                googleB1.SetActive(true);
+                googleB1.transform.DOMoveY(googleB1.transform.position.y + 1.2f, 1.2f);
+                //由於寶箱的y軸是躺著的，但我們要的效果是升起，故不使用localPosition而直接使用position
+            });
+            sacrificeEnemy.transform.DOMoveY(sacrificeEnemy.transform.position.y - 2 , 2f).SetDelay(1f).OnComplete(() =>
+            {
+                Destroy(sacrificeEnemy.gameObject);
+            });
+
+            arrayClearEventFlag = false; //事件結束後放下該旗標
+        }        
     }
 
     IEnumerator showBlinkingArray()
