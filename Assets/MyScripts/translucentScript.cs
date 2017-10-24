@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class translucentScript : MonoBehaviour
+public class TranslucentScript : MonoBehaviour
 {
 
     public float TranslucentValue = 0.3f; //透明度 可在外面調整

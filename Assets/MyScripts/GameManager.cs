@@ -123,13 +123,13 @@ public class GameManager : MonoBehaviour
     public void NVG_On()
     {
         Debug.Log("變成可以看見");
-        Enemy_outside.GetComponent<translucentScript>().BecomeCanSee();
+        Enemy_outside.GetComponent<TranslucentScript>().BecomeCanSee();
     }
 
     public void NVG_Off()
     {
         Debug.Log("變成不能看見");
-        Enemy_outside.GetComponent<translucentScript>().BecomeTranslucent();
+        Enemy_outside.GetComponent<TranslucentScript>().BecomeTranslucent();
     }
 
     //用來秀出死亡後選單，在玩家死亡時被呼叫

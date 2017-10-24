@@ -18,6 +18,7 @@ public class IllusionMinion : MonoBehaviour
             foreach (Material material in renderer.materials)
             {
                 originColor[i] = renderer.material.color; //在開始時先將原本材質的顏色記下
+                i++;
             }
         }
     }
@@ -47,6 +48,7 @@ public class IllusionMinion : MonoBehaviour
             foreach (Material material in renderer.materials)
             {
                 renderer.material.color = originColor[i];
+                i++;
             }
         }
     }

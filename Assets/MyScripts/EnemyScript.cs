@@ -114,6 +114,13 @@ public class EnemyScript : MonoBehaviour
         });
     }
 
+    public void Respawn()
+    {
+        this.CurrentHP = 100;
+        this.animator.SetFloat("HP", CurrentHP);
+        this.GetComponent<Collider>().enabled = true;
+    }
+
     public void ClearFollowTarget()
     {
         this.FollowTarget = null;

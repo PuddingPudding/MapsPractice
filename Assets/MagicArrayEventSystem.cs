@@ -16,7 +16,7 @@ public class MagicArrayEventSystem : MonoBehaviour
     public SacrificeEnemyScript sacrificeEnemy; //用來獻祭的敵人
     public Text messageDialog;
     public AudioSource restartSound;
-    public GameObject googleB1;
+    public GameObject goggleB1;
     public SpriteRenderer giantMagicArray; //巨大魔法陣，用來最後調量的
     private Vector3 enemyOriginPosition; //用來記錄敵人一剛開始的位子
     private int[] activeArray; //隨機抓X個魔法陣，只把他們幾個的isWorking設為true
@@ -32,7 +32,7 @@ public class MagicArrayEventSystem : MonoBehaviour
         enemyOriginPosition = sacrificeEnemy.transform.localPosition;
         initCeremony();
         lookAtArrayCamera.enabled = false;
-        googleB1.SetActive(false);
+        goggleB1.SetActive(false);
     }
 
     // Update is called once per frame
@@ -85,7 +85,7 @@ public class MagicArrayEventSystem : MonoBehaviour
             eventClear();
         }
 
-        if(googleB1.GetComponent<RewardScript>().hasBeenTaken)
+        if(goggleB1.GetComponent<RewardScript>().hasBeenTaken)
         {
             this.GetComponent<PlayerManager>().hasGoggleB1 = true;
         }
@@ -135,8 +135,8 @@ public class MagicArrayEventSystem : MonoBehaviour
             }
             DOTween.To(() => giantMagicArray.color, x => giantMagicArray.color = x, Color.red, 2f).OnComplete(() =>
             {
-                googleB1.SetActive(true);
-                googleB1.transform.DOMoveY(googleB1.transform.position.y + 1.2f, 1.2f);
+                goggleB1.SetActive(true);
+                goggleB1.transform.DOMoveY(goggleB1.transform.position.y + 1.2f, 1.2f);
                 //由於寶箱的y軸是躺著的，但我們要的效果是升起，故不使用localPosition而直接使用position
             });
             sacrificeEnemy.transform.DOMoveY(sacrificeEnemy.transform.position.y - 2 , 2f).SetDelay(1f).OnComplete(() =>

@@ -19,16 +19,16 @@ public class HightLight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.B) )
-        {
-            HighlightSwitch();
-        }
     }
 
-    public void HighlightSwitch()
+    public void BecomeHighLight()
     {
-        highlightFlag = !highlightFlag;
-        weakPointCollider.enabled = highlightFlag;
-        weakPointMark.SetActive(highlightFlag);
+        weakPointCollider.enabled = true;
+        weakPointMark.SetActive(true);
+    }
+    public void BecomeUnHighLight()
+    {
+        weakPointCollider.enabled = false;
+        weakPointMark.SetActive(false);
     }
 }
