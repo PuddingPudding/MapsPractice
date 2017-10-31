@@ -73,8 +73,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     animator.SetBool("Attack", false);
                     rigidbody.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
-                }
-                
+                }                
             }
         }
         else
@@ -116,8 +115,11 @@ public class EnemyScript : MonoBehaviour
 
     public void Respawn()
     {
+        this.transform.DOKill(false); //結束所有該物件的transform上正執行的DOTween，後面的參數帶入false表示直接結束而不執行OnComplete
         this.CurrentHP = 100;
         this.animator.SetFloat("HP", CurrentHP);
+        animator.SetBool("Walk", false);
+        animator.SetBool("Attack", false);
         this.GetComponent<Collider>().enabled = true;
     }
 

@@ -24,6 +24,7 @@ public class IllusionLoopEvent : MonoBehaviour
         {
             enemyOriginPosition[i] = enemyList[i].transform.position;
         }
+        resetEnemy();
     }
 
     // Update is called once per frame
@@ -55,13 +56,25 @@ public class IllusionLoopEvent : MonoBehaviour
     {
         player.transform.DOMove(rewindPoint.transform.position, rewindTime).OnComplete(() =>
         {
-            for (int i = 0; i < enemyList.Length; i++)
-            {
-                enemyList[i].gameObject.SetActive(true);
-                enemyList[i].Respawn();
-                enemyList[i].transform.position = enemyOriginPosition[i];
-            }
+            resetEnemy();
             combating = true;
         });        
+    }
+
+    void resetEnemy() //隨機重置所有敵人位置
+    {
+        List<int> choiceLeft = new List<int>();//剩餘的選擇，用以表示還有哪些空位沒有被塞入
+        for(int i = 0; i < enemyOriginPosition.Length; i++)
+        {
+            choiceLeft.Add(i);
+        }
+        for (int i = 0; i < enemyOriginPosition.Length; i++)
+        {
+            int numTemp = Random.Range(0, choiceLeft.Count);
+            enemyList[i].gameObject.SetActive(true);
+            enemyList[i].Respawn();
+            enemyList[i].transform.position = enemyOriginPosition[choiceLeft[numTemp]];
+            choiceLeft.RemoveAt(numTemp);
+        }
     }
 }

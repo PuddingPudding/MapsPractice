@@ -51,6 +51,12 @@ public class PlayerSoundList : MonoBehaviour
 
     public AudioSource WalkSound()
     {
-        return SoundArray[3];
+        if(SoundArray == null)
+        {
+            SoundArray = this.GetComponents<AudioSource>();
+            //每次走路時都會發生一次walkSound的null exception，雖不會讓遊戲崩潰
+            //但為了不要讓警告再跳出來，我們才加了這一行
+        }
+         return SoundArray[3];
     }
 }

@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoggleSystem : MonoBehaviour
 {
     public TranslucentScript[] translucentEnemyList;
-    public float goggleDuration = 4f; //濾鏡持續時間
-    public bool goggleOn = false; //濾鏡開啟狀態與否
     public HightLight[] highLightEnemyList;
     //public GameObject
-
     public IllusionMinion[] illusionMinionList;
+    public float goggleDuration = 4f; //濾鏡持續時間
+    public Image goggleDurationUI;
+    public bool goggleOn = false; //濾鏡開啟狀態與否
 
     // Use this for initialization
     void Start()
@@ -99,21 +101,25 @@ public class GoggleSystem : MonoBehaviour
             if(inputKey == 'N')
             {
                 this.translucentOff();
+                DOTween.To(() => goggleDurationUI.fillAmount, x => goggleDurationUI.fillAmount = x, 0, goggleDuration);
                 yield return new WaitForSeconds(goggleDuration);
                 this.translucentOn();
             }
             else if(inputKey == 'B')
             {
                 this.illusionOff();
+                DOTween.To(() => goggleDurationUI.fillAmount, x => goggleDurationUI.fillAmount = x, 0, goggleDuration);
                 yield return new WaitForSeconds(goggleDuration);
                 this.illusionOn();
             }
             else if (inputKey == 'V')
             {
                 this.highLightOn();
+                DOTween.To(() => goggleDurationUI.fillAmount, x => goggleDurationUI.fillAmount = x, 0, goggleDuration);
                 yield return new WaitForSeconds(goggleDuration);
                 this.highLightOff();
             }
+            goggleDurationUI.fillAmount = 1;
             goggleOn = false;
         }
         yield return new WaitForSeconds(0);
