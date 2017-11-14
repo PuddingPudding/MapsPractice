@@ -471,6 +471,9 @@ MonoBehaviour:
   playerSoundList: {fileID: 0}
   hasChanger: 1
   hasKeyA: 0
+  hasGoggle2F: 0
+  hasGoggleB1: 0
+  hasGoggleFinal: 0
 --- !u!114 &114060145433861418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -825,6 +828,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c57cf656eae9a47b4fd0e6fa719b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  box: {fileID: 0}
+  grooveTrigger: {fileID: 0}
+  buttonTrigger: {fileID: 0}
+  reductionArea: {fileID: 0}
+  reductionText: {fileID: 0}
+  reductionButtonScript: {fileID: 0}
+  midDoor: {fileID: 0}
+  table2FTrigger: {fileID: 0}
+  tableB1Trigger: {fileID: 0}
+  tableMidTrigger: {fileID: 0}
+  tableMid: {fileID: 0}
+  goggle2F: {fileID: 0}
+  goggleB1: {fileID: 0}
+  goggleFinal: {fileID: 0}
+  gameEndDoor: {fileID: 0}
+  monsterSpawner: {fileID: 0}
+  Goggle2F: {fileID: 0}
+  GateA: {fileID: 0}
+  GateB: {fileID: 0}
+  GateC: {fileID: 0}
+  buttonTriggerA1: {fileID: 0}
+  reductionButtonScriptA1: {fileID: 0}
+  buttonTriggerA2: {fileID: 0}
+  reductionButtonScriptA2: {fileID: 0}
+  buttonTriggerB1: {fileID: 0}
+  reductionButtonScriptB1: {fileID: 0}
+  buttonTriggerB2: {fileID: 0}
+  reductionButtonScriptB2: {fileID: 0}
+  buttonTriggerC1: {fileID: 0}
+  reductionButtonScriptC1: {fileID: 0}
+  buttonTriggerC2: {fileID: 0}
+  reductionButtonScriptC2: {fileID: 0}
 --- !u!114 &114644081183623246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1030,6 +1065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3172f71893dd7a84f9b62905bd01a24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
   Menu: {fileID: 1718357177330766}
 --- !u!114 &114878632070655270
 MonoBehaviour:
@@ -1254,7 +1290,7 @@ Canvas:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1084902794110162}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -1263,6 +1299,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

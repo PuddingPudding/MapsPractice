@@ -13,8 +13,6 @@ public class ArrowScript : MonoBehaviour
     {
         Rigidbody rigidbody = this.GetComponent<Rigidbody>();
         rigidbody.velocity = Direction * FlyingSpeed;
-        Debug.Log(rigidbody.velocity);
-        Debug.Log(this.GetComponent<Rigidbody>().velocity);
 
         Transform transform = this.GetComponent<Transform>();
         transform.eulerAngles -= new Vector3(90, 0, 0); //把弓箭轉成直線
@@ -33,7 +31,5 @@ public class ArrowScript : MonoBehaviour
         other.gameObject.SendMessage("Hit", damageValue , SendMessageOptions.DontRequireReceiver);
         KillYourself();
     }
-
-
 
 }
