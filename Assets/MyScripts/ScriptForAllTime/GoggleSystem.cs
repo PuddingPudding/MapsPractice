@@ -10,14 +10,24 @@ public class GoggleSystem : MonoBehaviour
     public HightLight[] highLightEnemyList;
     //public GameObject
     public IllusionMinion[] illusionMinionList;
-    public float goggleDuration = 4f; //濾鏡持續時間
+    public float goggleDuration = 6f; //濾鏡持續時間
     public Image goggleDurationUI;
     public bool goggleOn = false; //濾鏡開啟狀態與否
+
+    public GameObject NBlur;
+    public GameObject BBlur;
+    public GameObject VBlur;
+
+    public Text goggleHintN;
+    public Text goggleHintB;
+    public Text goggleHintV;
 
     // Use this for initialization
     void Start()
     {
-
+        NBlur.SetActive(false);
+        BBlur.SetActive(false);
+        VBlur.SetActive(false);
     }
 
     // Update is called once per frame
@@ -101,23 +111,38 @@ public class GoggleSystem : MonoBehaviour
             if(inputKey == 'N')
             {
                 this.translucentOff();
+                NBlur.SetActive(true);
+                Color goggleHintOriginColor = goggleHintN.color;
+                goggleHintN.color = Color.gray;
                 DOTween.To(() => goggleDurationUI.fillAmount, x => goggleDurationUI.fillAmount = x, 0, goggleDuration);
                 yield return new WaitForSeconds(goggleDuration);
                 this.translucentOn();
+                NBlur.SetActive(false);
+                goggleHintN.color = goggleHintOriginColor;
             }
             else if(inputKey == 'B')
             {
                 this.illusionOff();
+                BBlur.SetActive(true);
+                Color goggleHintOriginColor = goggleHintB.color;
+                goggleHintB.color = Color.gray;
                 DOTween.To(() => goggleDurationUI.fillAmount, x => goggleDurationUI.fillAmount = x, 0, goggleDuration);
                 yield return new WaitForSeconds(goggleDuration);
                 this.illusionOn();
+                BBlur.SetActive(false);
+                goggleHintB.color = goggleHintOriginColor;
             }
             else if (inputKey == 'V')
             {
                 this.highLightOn();
+                VBlur.SetActive(true);
+                Color goggleHintOriginColor = goggleHintV.color;
+                goggleHintV.color = Color.gray;
                 DOTween.To(() => goggleDurationUI.fillAmount, x => goggleDurationUI.fillAmount = x, 0, goggleDuration);
                 yield return new WaitForSeconds(goggleDuration);
                 this.highLightOff();
+                VBlur.SetActive(false);
+                goggleHintV.color = goggleHintOriginColor;
             }
             goggleDurationUI.fillAmount = 1;
             goggleOn = false;

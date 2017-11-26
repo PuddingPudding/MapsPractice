@@ -11,6 +11,8 @@ public class ExplodeSpotScript : MonoBehaviour
     public float ExplodeTime;
     public int Damage;
 
+    private bool prepareToExplode = false; //準備要爆炸的布林值，用這個值來避免擴張到極限後多次invoke爆炸事件
+
     // Use this for initialization
     void Start()
     {
@@ -26,9 +28,10 @@ public class ExplodeSpotScript : MonoBehaviour
             //this.transform.localScale = this.transform.localScale * ExpandSpeed;
             this.transform.localScale += ExpandVector*Time.deltaTime;
         }
-        else if (this.transform.localScale.x >= RangeMax)
+        else if (this.transform.localScale.x >= RangeMax && !prepareToExplode)
         {
             Invoke("KillYourself", ExplodeTime);
+            prepareToExplode = true;
         }
 
     }

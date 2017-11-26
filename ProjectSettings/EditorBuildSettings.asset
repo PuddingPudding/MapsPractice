@@ -17,3 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MyOwnScene/second.unity
     guid: dada88736e6e35f468d0544dbcae7601
+  - enabled: 1
+    path: Assets/MyOwnScene/three.unity
+    guid: a0afadb1d708e154bb03d4354b9a9d3c
+  - enabled: 1
+    path: Assets/MyOwnScene/fourth.unity
+    guid: 9a6b4757edceccf4a85aeb34ce0a9cdd

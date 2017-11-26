@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,6 +47,8 @@ public class EventSystemStage2 : MonoBehaviour
     public CollisionListScript buttonTriggerC2;
     public ReductionButtonScript reductionButtonScriptC2;
 
+    //結束關卡時會用到
+    public Image endScreen;
 
     // Use this for initialization
     void Start()
@@ -128,6 +131,13 @@ public class EventSystemStage2 : MonoBehaviour
                 {
                     gameEndDoor.GetComponent<TalkToPlayerScript>().textImage = "開 啟";
                     gameEndDoor.GetComponent<TalkToPlayerScript>().Message = "下一關!";
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        DOTween.To(() => endScreen.color, (x) => endScreen.color = x, Color.black, 3f).OnComplete(() =>
+                        {
+                            Application.LoadLevel("three");
+                        }); ;
+                    }
                 }
             }
         }
