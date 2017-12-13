@@ -22,11 +22,6 @@ public class MonsterSpawner : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            this.ProduceMonster();
-        }
-
         List<EnemyScriptVerDestory> enemyToRemove = new List<EnemyScriptVerDestory>();
         //這是foreach的細節之一，foreach的例外處理會希望你不要在走訪串列的過程中直接去移除或新增元素
         //所以我們要先用一個暫存的列表去記下哪些東西要移除

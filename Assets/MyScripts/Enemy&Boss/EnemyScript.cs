@@ -17,8 +17,6 @@ public class EnemyScript : MonoBehaviour
     public float AttackValue = 30f;
 
     private Rigidbody rigidbody;
-    private bool readyForIdle = false; //準備閒置，當感應區裡沒有玩家，會把這個bool調成false，並Invoke幾秒後不再追蹤
-    public float readyForIdleTime = 4f;
     public EnemySoundList enemySoundList;
 
     public void AttackPlayer()
@@ -43,12 +41,6 @@ public class EnemyScript : MonoBehaviour
         if (PlayerSensor.CollisionObjects.Count > 0)
         {
             FollowTarget = PlayerSensor.CollisionObjects[0].gameObject;
-            readyForIdle = true;
-        }
-        else if(PlayerSensor.CollisionObjects.Count == 0 && readyForIdle == true)
-        {
-            readyForIdle = false;
-            Invoke("ClearFollowTarget" , 4);
         }
 
         if (CurrentHP > 0 && HitCounter > 0)
@@ -88,7 +80,6 @@ public class EnemyScript : MonoBehaviour
         {
             enemySoundList.PlayHitSound();
             FollowTarget = GameObject.FindGameObjectWithTag("Player");
-            readyForIdle = true;
             HitCounter = MinimumHitPeriod;
             CurrentHP -= value;
             animator.SetFloat("HP", CurrentHP);
@@ -121,12 +112,6 @@ public class EnemyScript : MonoBehaviour
         animator.SetBool("Walk", false);
         animator.SetBool("Attack", false);
         this.GetComponent<Collider>().enabled = true;
-    }
-
-    public void ClearFollowTarget()
-    {
-        this.FollowTarget = null;
-        animator.SetBool("Walk", false);
     }
 
 }

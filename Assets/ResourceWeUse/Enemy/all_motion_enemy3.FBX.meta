@@ -88,6 +88,7 @@ ModelImporter:
     7400006: Attack
     7400008: Idle
     7400010: DeadIdle
+    7400012: Take 001
     9500000: //RootNode
     13700000: Box001
   materials:

@@ -1537,7 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1194a2c6afee5419bd13cd24464c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0.5
+  waitTime: 0.35
   Damage: 20
 --- !u!135 &135001308470998614
 SphereCollider:

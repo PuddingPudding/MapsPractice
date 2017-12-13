@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mahojinScript : MonoBehaviour {
+public class mahojinScript : MonoBehaviour
+{
 
     //放在mahojinCircle上
 
@@ -12,16 +13,18 @@ public class mahojinScript : MonoBehaviour {
     private int childCount;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         childCount = gameObject.transform.childCount;
         StartCoroutine(changeColor());
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
-    
+
     IEnumerator changeColor()
     {
         for (int i = 0; i < childCount; i++)

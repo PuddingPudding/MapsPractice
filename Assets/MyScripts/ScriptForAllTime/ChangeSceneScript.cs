@@ -15,6 +15,11 @@ public class ChangeSceneScript : MonoBehaviour
         Application.LoadLevel(SceneID);
     }
 
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
     // Use this for initialization
     void Start()
     {

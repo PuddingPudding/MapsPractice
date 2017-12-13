@@ -30,16 +30,6 @@ public class CellDoorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            this.OpenDoor();
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            this.CloseDoor();
-        }
     }
 
     public void OpenDoor()

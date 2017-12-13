@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class GoggleSystem : MonoBehaviour
 {
+    //各類敵人的列表
     public TranslucentScript[] translucentEnemyList;
     public HightLight[] highLightEnemyList;
-    //public GameObject
     public IllusionMinion[] illusionMinionList;
     public float goggleDuration = 6f; //濾鏡持續時間
     public Image goggleDurationUI;
