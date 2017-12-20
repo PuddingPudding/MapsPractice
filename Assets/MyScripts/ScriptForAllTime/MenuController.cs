@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         backToMainMenu(); //開場先呼叫跳回主選單(讓其他選單都先關掉，再開啟主選單)
+        Cursor.visible = true;
     }
 
     // Update is called once per frame

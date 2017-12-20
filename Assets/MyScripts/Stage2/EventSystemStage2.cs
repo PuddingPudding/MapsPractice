@@ -118,6 +118,8 @@ public class EventSystemStage2 : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         goggleFinal.SetActive(true);
+                        goggle2FExist = false;
+                        goggleB1Exist = false;
                     }
                 }
             }
